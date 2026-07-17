@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag Validation Hints Recipe | A11y Tag Input</title>
+    <meta name="description" content="Explain tag rules before validation runs, then provide visible, announced recovery feedback for invalid automation slugs.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tag Validation Hints Recipe | A11y Tag Input">
+    <meta property="og:description" content="Explain tag rules before validation runs, then provide visible, announced recovery feedback for invalid automation slugs.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Tag Validation Hints Recipe | A11y Tag Input">
+    <meta name="twitter:description" content="Explain tag rules before validation runs, then provide visible, announced recovery feedback for invalid automation slugs.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/",
+            "name": "Tag Validation Hints Recipe | A11y Tag Input",
+            "description": "Explain tag rules before validation runs, then provide visible, announced recovery feedback for invalid automation slugs.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/validation-hints/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Addon-style recipe</p>
+      <h1>Validation Hints For Automation Slugs</h1>
+      <p class="demo-intro">
+        Operations teams need compact automation tags that work in URLs, logs, and filters. This recipe explains the rules before validation fails.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: create machine-friendly tags using lowercase letters, numbers, and hyphens.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ul>
+          <li>Add <code>build-queue</code>.</li>
+          <li>Try <code>QA</code> and inspect the lowercase transform.</li>
+          <li>Try <code>bad tag</code> to trigger the invalid character message.</li>
+          <li>Try a one-character tag to trigger the minimum length message.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="automation-tags">Automation tags</label>
+              <p class="demo-field-help" id="automation-tags-help">
+                Use 2 to 20 characters. Lowercase letters, numbers, and hyphens only.
+              </p>
+              <textarea
+                id="automation-tags"
+                name="automation-tags"
+                data-a11y-tag-input
+                data-max-tags="6"
+                data-lowercase="true"
+                data-min-length="2"
+                data-max-length="20"
+                data-invalid-chars="[^a-z0-9-]"
+                aria-describedby="automation-tags-help"
+              >deploy,rollback</textarea>
+            </div>
+
+          </form>
+
+          <aside class="demo-note" aria-labelledby="notes-title">
+            <h3 id="notes-title">Developer notes</h3>
+            <p>
+              The core options cover common validation rules. Use custom validators for rules that need domain logic.
+            </p>
+            <pre><code>createTagInput(source, {
+  lowercase: true,
+  minLength: 2,
+  maxLength: 20,
+  invalidChars: /[^a-z0-9-]/
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How to build it</h2>
+        <p>Describe the rules beside the field, connect that hint with <code>aria-describedby</code>, and configure the same constraints in JavaScript.</p>
+        <div class="demo-grid">
+          <div>
+            <h3>HTML</h3>
+            <pre><code>&lt;p id="automation-tags-help"&gt;
+  Use 2 to 20 characters. Letters, numbers, and hyphens only.
+&lt;/p&gt;
+&lt;textarea id="automation-tags"
+  aria-describedby="automation-tags-help"&gt;&lt;/textarea&gt;</code></pre>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>createTagInput(source, {
+  lowercase: true,
+  minLength: 2,
+  maxLength: 20,
+  invalidChars: /[^a-z0-9-]/
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>The rule summary is visible before validation runs.</li>
+          <li>Rejected tags use the plugin's visible error and live status message.</li>
+          <li>The example avoids color-only validation feedback.</li>
+          <li>Use clear recovery text for custom validators in production forms.</li>
+        </ul>
+      </section>
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>This recipe demonstrates addon-style behavior around the core plugin; production forms still need target browser, assistive technology, touch, zoom, and forced-colors checks.</li>
+          <li>Keep labels, validation copy, and recovery instructions aligned with your own domain language before shipping.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#automation-tags");
+
+      if (source instanceof HTMLTextAreaElement) {
+        createTagInput(source, {
+          lowercase: true,
+          minLength: 2,
+          maxLength: 20,
+          invalidChars: /[^a-z0-9-]/,
+          messages: {
+            invalidChars: "Use lowercase letters, numbers, and hyphens only.",
+            tooShortTag: "Use at least {min} characters.",
+            tooLongTag: "Use {max} characters or fewer."
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

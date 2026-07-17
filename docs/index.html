@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessible Tag Input Demo | A11y Tag Input</title>
+    <meta name="description" content="Try a framework-agnostic tag input with keyboard navigation, validation feedback, native form syncing, and practical TypeScript examples.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="A11y Tag Input">
+    <meta property="og:title" content="Accessible Tag Input Demo | A11y Tag Input">
+    <meta property="og:description" content="Try a framework-agnostic tag input with keyboard navigation, validation feedback, native form syncing, and practical TypeScript examples.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Accessible Tag Input Demo | A11y Tag Input">
+    <meta name="twitter:description" content="Try a framework-agnostic tag input with keyboard navigation, validation feedback, native form syncing, and practical TypeScript examples.">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://vmitsaras.github.io/a11y-tag-input/#webpage",
+      "url": "https://vmitsaras.github.io/a11y-tag-input/",
+      "name": "Accessible Tag Input Demo | A11y Tag Input",
+      "description": "Try a framework-agnostic tag input with keyboard navigation, validation feedback, native form syncing, and practical TypeScript examples.",
+      "mainEntity": {
+        "@id": "https://vmitsaras.github.io/a11y-tag-input/#software"
+      }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://vmitsaras.github.io/a11y-tag-input/#software",
+      "name": "A11y Tag Input",
+      "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+      "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+      "programmingLanguage": [
+        "TypeScript",
+        "JavaScript"
+      ],
+      "runtimePlatform": "Browser",
+      "version": "1.0.0",
+      "license": "MIT",
+      "keywords": [
+        "accessibility",
+        "a11y",
+        "tag-input",
+        "forms",
+        "typescript"
+      ],
+      "author": {
+        "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+      },
+      "targetProduct": {
+        "@type": "SoftwareApplication",
+        "name": "A11y Tag Input",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "runtimePlatform": "Browser"
+      },
+      "sameAs": [
+        "https://github.com/vmitsaras/a11y-tag-input"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+      "name": "Vasileios Mitsaras",
+      "url": "https://github.com/vmitsaras/",
+      "sameAs": [
+        "https://github.com/vmitsaras/",
+        "https://linkedin.com/in/vasilis-mitsaras"
+      ]
+    }
+  ]
+}
+    </script>
+    <link rel="stylesheet" href="./dist/styles.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#demo">Skip to live demo</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="./">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="./" aria-current="page">Home</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <div class="demo-hero__copy">
+        <p class="demo-eyebrow">Accessible interaction / zero framework</p>
+        <h1>A11y Tag Input</h1>
+        <p class="demo-intro">Accessible, framework-agnostic tag input behavior for semantic form controls.</p>
+        <p class="demo-meta">
+          <span>a11y-tag-input</span>
+          <span aria-hidden="true">/</span>
+          <span>v1.0.0</span>
+        </p>
+        <div class="demo-actions" aria-label="Primary actions">
+          <a class="demo-button" href="#demo">Try the live demo</a>
+          <a class="demo-button demo-button--secondary" href="#install">Install and initialize</a>
+        </div>
+      </div>
+      <div class="demo-hero__signal" aria-hidden="true">
+        <span>TAG</span>
+        <span class="demo-hero__token">keyboard-ready</span>
+        <span class="demo-hero__token">native value</span>
+      </div>
+    </header>
+
+    <nav class="demo-section-nav" aria-label="Demo sections">
+      <ul>
+        <li><a href="#demo">Live demo</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#keyboard">Keyboard</a></li>
+        <li><a href="#options">Options</a></li>
+        <li><a href="#accessibility">Accessibility</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+      </ul>
+    </nav>
+
+    <main class="demo-page">
+      <section class="demo-section" id="demo" aria-labelledby="demo-title">
+        <h2 id="demo-title">Live Demo</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="pages-demo-tags">Project tags</label>
+              <p class="demo-help" id="pages-demo-help">
+                Add up to five tags. Try Enter, comma, semicolon, Backspace from an empty field, and remove buttons.
+              </p>
+              <textarea
+                id="pages-demo-tags"
+                name="pages-demo-tags"
+                data-a11y-tag-input
+                data-max-tags="5"
+                data-lowercase="true"
+                aria-describedby="pages-demo-help"
+              >accessibility,forms</textarea>
+            </div>
+
+            <button class="demo-button" type="submit">Show form value</button>
+            <output class="demo-output" id="pages-demo-output" aria-label="Serialized textarea value" aria-live="polite">Not submitted yet.</output>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="try-title">
+            <h3 id="try-title">Try it</h3>
+            <ul>
+              <li>Type <code>Design</code> and press Enter.</li>
+              <li>Type <code>Research;Forms</code> to add multiple tags.</li>
+              <li>Press Backspace from an empty input to move to the last remove button.</li>
+              <li>Submit the form to inspect the synchronized textarea value.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" id="examples" aria-labelledby="examples-title">
+        <h2 id="examples-title">Examples</h2>
+        <p>Start with the basic demo, then use the 13 addon recipes for focused integration patterns. Each page is static, framework-free, and imports the built package from <code>./dist/</code>.</p>
+        <div class="demo-feature-card">
+        <p class="demo-card-label">Start here</p>
+        <h3><a href="./examples/basic/">Basic</a></h3>
+        <p>Progressively enhances a textarea into an accessible tag input with lowercase normalization and a max-tag limit.</p>
+      </div>
+        <h3 class="demo-subheading">Addon recipes</h3>
+        <ul class="demo-card-grid">
+          <li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/character-count/">Character Count</a></h3>
+        <p>Addon-style recipe that shows a visible character count for the current tag value.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/clear-all-confirmation/">Clear All Confirmation</a></h3>
+        <p>Addon-style inline confirmation for clear(), with focus recovery and one status announcement.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/duplicate-feedback/">Duplicate Feedback</a></h3>
+        <p>Addon-style recipe for clearer duplicate tag rejection feedback.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/development-inspector/">Development Inspector</a></h3>
+        <p>Compares flawed and corrected markup while demonstrating development-only structured diagnostics.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/form-validator-integration/">Form Validator Integration</a></h3>
+        <p>Publish-article form combining committed-tag validation with A11y Form Validator's error summary.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/form-reset-playground/">Form Reset Playground</a></h3>
+        <p>Form-state lab comparing initial, current, submitted, and natively reset tag values.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/form-value-formats/">Form Value Formats</a></h3>
+        <p>Developer lab for default CSV, custom readable, strict space-delimited, and JSON form values.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/localization/">Localization</a></h3>
+        <p>German localization recipe for labels, instructions, validation errors, counters, and live status messages.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/multilingual-stress-test/">Multilingual Stress Test</a></h3>
+        <p>Stress-test recipe for IME composition, bidirectional text, emoji, and long values.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/presets/">Presets</a></h3>
+        <p>Addon-style recipe for applying preset tag sets with semantic buttons.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/recent-tags/">Recent Tags</a></h3>
+        <p>Addon-style recipe for adding frequently used tags from a recent list.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/validation-hints/">Validation Hints</a></h3>
+        <p>Addon-style recipe for visible validation rules and custom validation messages.</p>
+      </li>
+<li class="demo-card">
+        <p class="demo-card-label">Addon recipe</p>
+        <h3><a href="./examples/visible-counter/">Visible Counter</a></h3>
+        <p>Addon-style recipe that mirrors the max tag limit with a visible counter.</p>
+      </li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="install" aria-labelledby="install-title">
+        <h2 id="install-title">Install And Initialize</h2>
+        <div class="demo-grid">
+          <div>
+            <h3>Install</h3>
+            <pre><code>npm install
+npm run build</code></pre>
+            <p class="demo-warning">The npm package URL was not verified during this pass, so use a local workspace, packed tarball, or repository checkout until registry publication is confirmed.</p>
+          </div>
+          <div>
+            <h3>Initialize</h3>
+            <pre><code>import { createTagInput } from &quot;a11y-tag-input&quot;;
+import &quot;a11y-tag-input/styles.css&quot;;
+
+const source = document.querySelector(&quot;[data-a11y-tag-input]&quot;);
+
+if (source instanceof HTMLInputElement || source instanceof HTMLTextAreaElement) {
+  createTagInput(source, {
+    maxTags: 10,
+    separators: [&quot;,&quot;, &quot;;&quot;, &quot;Enter&quot;],
+    lowercase: true
+  });
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" id="keyboard" aria-labelledby="keyboard-title">
+        <h2 id="keyboard-title">Keyboard Behavior</h2>
+        <div class="demo-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Key</th>
+                <th scope="col">Behavior</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+        <th scope="row"><kbd>Tab / Shift+Tab</kbd></th>
+        <td>Enters or leaves the tag editor through its current single Tab stop; the input is the initial stop.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Enter</kbd></th>
+        <td>Adds the current input value as a tag after any active IME composition ends.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>, / ;</kbd></th>
+        <td>Adds the current input value when those separators are configured and IME composition has ended.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Backspace</kbd></th>
+        <td>From an empty field, moves focus to the final tag remove button.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>ArrowLeft / ArrowRight</kbd></th>
+        <td>Moves focus between tag remove buttons or back to the input from the final button.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Home / End</kbd></th>
+        <td>Moves to the first tag remove button or back to the input field.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Delete / Backspace</kbd></th>
+        <td>Removes a focused tag.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Escape</kbd></th>
+        <td>Clears the current input field value.</td>
+      </tr>
+<tr>
+        <th scope="row"><kbd>Character input at max limit</kbd></th>
+        <td>Prevents new text entry, keeps focus on the generated input, and updates the status message.</td>
+      </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="demo-section" id="options" aria-labelledby="options-title">
+        <h2 id="options-title">Common Options</h2>
+        <p>This table summarizes the documented option surface. See the README for the full API, methods, events, CSS hooks, and data attributes.</p>
+        <div class="demo-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Option</th>
+                <th scope="col">Default</th>
+                <th scope="col">Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+        <th scope="row"><code>separators</code></th>
+        <td>[&quot;,&quot;, &quot;;&quot;, &quot;Enter&quot;]</td>
+        <td>Separators that commit typed or pasted text.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>maxTags</code></th>
+        <td>Infinity</td>
+        <td>Maximum number of tags before new character input is blocked until a tag is removed.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>allowDuplicates</code></th>
+        <td>false</td>
+        <td>Allows repeated tag values.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>trim</code></th>
+        <td>true</td>
+        <td>Trims candidate tags before validation.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>lowercase</code></th>
+        <td>false</td>
+        <td>Lowercases candidate tags before validation.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>readonly</code></th>
+        <td>false</td>
+        <td>Prevents user edits and disables remove buttons.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>disabled</code></th>
+        <td>false</td>
+        <td>Disables the generated field and synchronized source control.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>autocomplete</code></th>
+        <td>off</td>
+        <td>Sets autocomplete on the generated input.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>inputMode</code></th>
+        <td>text</td>
+        <td>Sets inputMode on the generated input.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>outputFormat</code></th>
+        <td>csv</td>
+        <td>Controls serialized form value output.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>minLength</code></th>
+        <td>1</td>
+        <td>Minimum tag length.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>maxLength</code></th>
+        <td>50</td>
+        <td>Maximum tag length.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>invalidChars</code></th>
+        <td>null</td>
+        <td>Rejects tags that match the pattern.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>parser</code></th>
+        <td>defaultParser</td>
+        <td>Custom parser for typed, pasted, and initial text.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>serializer</code></th>
+        <td>null</td>
+        <td>Custom serializer for synchronized values.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>transforms</code></th>
+        <td>[]</td>
+        <td>Custom candidate tag transforms.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>validators</code></th>
+        <td>[]</td>
+        <td>Custom validation checks that can provide a direct message or a configured message key; unknown keys fall back to the default invalid-tag message.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>messages</code></th>
+        <td>defaultMessages</td>
+        <td>Message overrides for labels, status text, and validation.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>hooks</code></th>
+        <td>{}</td>
+        <td>Lifecycle hooks around add, validate, render, remove, and serialize steps.</td>
+      </tr>
+<tr>
+        <th scope="row"><code>valueElement</code></th>
+        <td>source</td>
+        <td>Alternate element or selector for synchronized value output.</td>
+      </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="demo-docs-link">
+          <a href="https://github.com/vmitsaras/a11y-tag-input#readme">Open the complete README and API reference</a>.
+        </p>
+      </section>
+
+      <section class="demo-section" id="accessibility" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility Notes</h2>
+        <ul>
+          <li>Progressively enhances labelled native input and textarea controls.</li>
+<li>Retargets every associated explicit or wrapping label to the generated visible input, including labels outside the component root.</li>
+<li>Preserves authored aria-labelledby and aria-label names using their normal accessible-name precedence.</li>
+<li>Uses a grouped generated control with instructions, counter, validation error, and status region relationships.</li>
+<li>Renders tags in a labelled list with real remove buttons.</li>
+<li>Uses aria-invalid, aria-errormessage, visible error text, and status feedback for validation errors without adding a competing description path.</li>
+<li>Writes add, remove, paste, limit, and validation feedback to one persistent polite status region.</li>
+<li>Makes identical messages from later actions eligible for announcement through a separate update, summarizes paste once, and avoids rewriting the same limit message for repeated character keys.</li>
+<li>Reflects disabled and read-only states on the generated field, source control, root classes, and remove buttons.</li>
+<li>Moves required constraint validation to the generated focusable field while enhanced and restores the source state on destroy.</li>
+<li>Synchronizes visible tags from the post-reset source or alternate value element after native form reset without forcing focus or adding an announcement.</li>
+<li>Exposes the max-tag limit as read-only on the generated input while keeping focus and removal recovery available.</li>
+<li>Maintains one generated Tab stop at a time and uses empty-field Backspace, arrows, Home, and End for internal focus movement without intercepting Tab.</li>
+<li>Wraps long labels, tags, and errors in narrow containers while preserving 44px generated field and remove-button targets.</li>
+<li>Default CSS includes visible focus styles, measured default contrast, forced-colors system-color fallbacks, and reduced-motion handling.</li>
+        </ul>
+        <p class="demo-warning">
+          Test the final integration with your target browsers, devices, and assistive technologies.
+        </p>
+        <p>
+          Manual review prompts are available in <a href="./accessibility-test-scenarios.md">accessibility-test-scenarios.md</a>.
+          WCAG evidence notes are available in <a href="./wcag-evidence-map.md">wcag-evidence-map.md</a>.
+        </p>
+      </section>
+
+      <section class="demo-section" id="limitations" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>Does not claim full WCAG conformance or universal assistive technology support.</li>
+<li>Default parsing is delimiter-based and does not handle quoted CSV or escaped delimiters.</li>
+<li>Tag values render as plain text only.</li>
+<li>The package does not auto-initialize on import.</li>
+<li>The development inspector provides static authoring diagnostics, not a conformance claim, full accessibility audit, or assistive technology test.</li>
+<li>valueElement selectors are resolved inside the tag input root.</li>
+<li>Form-reset synchronization listens only to the source control's owning form, or the alternate value element's form when the source has none; unrelated programmatic value changes require setTags().</li>
+<li>Paste validation is summarized in the status region; DOM timing and relationships are tested, while custom validators and actual speech still need target assistive technology checks.</li>
+<li>Manual testing is still needed for each consuming form, actual 200% browser zoom, real Windows High Contrast rendering, touch and virtual-keyboard comfort, and the target assistive technology stack; recheck contrast after overriding theme tokens or backgrounds.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" aria-labelledby="deploy-title">
+        <h2 id="deploy-title">GitHub Pages Deployment</h2>
+        <p>
+          This repository is prepared for branch publishing from <code>/docs</code>.
+          In GitHub, use Settings -&gt; Pages -&gt; Build and deployment -&gt; Deploy from a branch -&gt; selected branch -&gt; <code>/docs</code>.
+        </p>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+<li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "./dist/index.js";
+
+      const source = document.querySelector("#pages-demo-tags");
+      const form = document.querySelector(".demo-form");
+      const output = document.querySelector("#pages-demo-output");
+
+      if (source instanceof HTMLTextAreaElement) {
+        createTagInput(source, {
+          maxTags: 5,
+          lowercase: true
+        });
+      }
+
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (source instanceof HTMLTextAreaElement && output instanceof HTMLOutputElement) {
+          output.textContent = source.value || "(empty)";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+{
+  "name": "a11y-tag-input",
+  "version": "1.0.0",
+  "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./docs": {
+      "types": "./dist/docs.d.ts",
+      "import": "./dist/docs.js"
+    },
+    "./dev": {
+      "types": "./dist/dev.d.ts",
+      "import": "./dist/dev.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build:dist": "npm run clean && tsdown && npm run copy:assets",
+    "build": "npm run pages:build",
+    "copy:assets": "node -e \"const fs = require('node:fs'); if (fs.existsSync('src/styles.css')) { fs.mkdirSync('dist', { recursive: true }); fs.copyFileSync('src/styles.css', 'dist/styles.css'); }\"",
+    "jsonld:generate": "node scripts/generate-jsonld.mjs",
+    "jsonld:validate": "node scripts/validate-jsonld.mjs",
+    "pages:generate": "npm run jsonld:generate && node scripts/build-pages.mjs",
+    "pages:build": "npm run build:dist && npm run pages:generate",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "pack:check": "npm pack --dry-run --cache ./.npm-cache",
+    "prepack": "npm run build:dist",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run test && npm run typecheck && npm run build && changeset publish"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "tag-input",
+    "forms",
+    "typescript"
+  ],
+  "author": "Vasileios Mitsaras",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmitsaras/a11y-tag-input.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vmitsaras/a11y-tag-input/issues"
+  },
+  "homepage": "https://github.com/vmitsaras/a11y-tag-input#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "a11y-form-validator": "1.0.19",
+    "happy-dom": "^20.10.6",
+    "tsdown": "^0.22.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form Value Formats | A11y Tag Input</title>
+    <meta name="description" content="Compare default CSV, comma-and-space, space-delimited, and JSON tag values with copyable JavaScript configuration snippets.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Form Value Formats | A11y Tag Input">
+    <meta property="og:description" content="Compare synchronized tag values and copy the serializer configuration that matches a form backend.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/",
+            "name": "Form Value Formats | A11y Tag Input",
+            "description": "Compare default CSV, comma-and-space, space-delimited, and JSON tag values with copyable JavaScript configuration snippets.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-value-formats/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Form value lab</p>
+      <h1>Choose the Value Your Backend Expects</h1>
+      <p class="demo-intro">
+        Compare common synchronized values, then copy the JavaScript configuration that produces each format.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          A developer needs the visible tags and native form value to stay aligned while sending either
+          <code>tag1,tag2</code>, <code>tag1, tag2</code>, or <code>tag1 tag2</code> to an existing backend.
+        </p>
+        <p>User goal: try each format and inspect the exact string that a form submission receives.</p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ol>
+          <li>Add or remove a tag in each editor and compare its synchronized value.</li>
+          <li>In the first two editors, add <code>tag 3</code> to confirm that an individual tag may contain spaces.</li>
+          <li>In the strict space-delimited editor, try <code>tag 3</code> and review the validation message.</li>
+          <li>Activate <strong>Preview submitted values</strong> to inspect the three native form entries together.</li>
+        </ol>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Live formats</h2>
+        <form class="demo-form" id="format-form">
+          <div class="demo-grid">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="csv-tags">Default CSV</label>
+              <p class="demo-field-help" id="csv-tags-help">
+                Uses the built-in default and stores commas without added spaces.
+              </p>
+              <textarea id="csv-tags" name="csvTags" data-a11y-tag-input aria-describedby="csv-tags-help">tag1,tag 2</textarea>
+            </div>
+            <aside class="demo-note" aria-labelledby="csv-value-title">
+              <h3 id="csv-value-title">Synchronized value</h3>
+              <output class="demo-output" id="csv-value" for="csv-tags" aria-labelledby="csv-value-title"></output>
+            </aside>
+          </div>
+
+          <div class="demo-grid">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="readable-tags">Comma and space</label>
+              <p class="demo-field-help" id="readable-tags-help">
+                Uses a custom serializer to add one space after every comma.
+              </p>
+              <textarea id="readable-tags" name="readableTags" data-a11y-tag-input aria-describedby="readable-tags-help">tag1, tag 2</textarea>
+            </div>
+            <aside class="demo-note" aria-labelledby="readable-value-title">
+              <h3 id="readable-value-title">Synchronized value</h3>
+              <output class="demo-output" id="readable-value" for="readable-tags" aria-labelledby="readable-value-title"></output>
+            </aside>
+          </div>
+
+          <div class="demo-grid">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="space-tags">Strict space-delimited</label>
+              <p class="demo-field-help" id="space-tags-help">
+                Each tag must be one token because spaces separate the submitted values.
+              </p>
+              <textarea id="space-tags" name="spaceTags" data-a11y-tag-input aria-describedby="space-tags-help">tag1 tag2</textarea>
+            </div>
+            <aside class="demo-note" aria-labelledby="space-value-title">
+              <h3 id="space-value-title">Synchronized value</h3>
+              <output class="demo-output" id="space-value" for="space-tags" aria-labelledby="space-value-title"></output>
+            </aside>
+          </div>
+
+          <div class="demo-actions">
+            <button class="demo-button" type="submit">Preview submitted values</button>
+            <button class="demo-button-secondary" type="reset">Reset example</button>
+          </div>
+
+          <section class="demo-note" aria-labelledby="submitted-title">
+            <h3 id="submitted-title">Submitted value preview</h3>
+            <output class="demo-output" id="submitted-values" aria-labelledby="submitted-title" aria-live="polite">
+              Not submitted yet.
+            </output>
+          </section>
+        </form>
+      </section>
+
+      <section class="demo-section" aria-labelledby="snippets-title">
+        <h2 id="snippets-title">JavaScript snippets</h2>
+        <div class="demo-stack">
+          <article>
+            <h3>Default CSV: <code>tag1,tag2</code></h3>
+            <pre><code>createTagInput(source);</code></pre>
+          </article>
+
+          <article>
+            <h3>Comma and space: <code>tag1, tag2</code></h3>
+            <pre><code>createTagInput(source, {
+  serializer: (tags) =&gt; tags.join(", ")
+});</code></pre>
+          </article>
+
+          <article>
+            <h3>Strict space-delimited: <code>tag1 tag2</code></h3>
+            <pre><code>createTagInput(source, {
+  parser: (value) =&gt; value.trim().split(/\s+/),
+  serializer: (tags) =&gt; tags.join(" "),
+  invalidChars: /\s/,
+  messages: {
+    invalidChars: "Space-delimited tags cannot contain spaces."
+  }
+});</code></pre>
+          </article>
+
+          <article>
+            <h3>JSON for unambiguous multiword tags</h3>
+            <pre><code>createTagInput(source, {
+  outputFormat: "json"
+});
+
+// ["tag1","tag 2"]</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="developer-title">
+        <h2 id="developer-title">Developer notes</h2>
+        <ul>
+          <li>Import <code>createTagInput</code> from <code>../../dist/index.js</code> and the package styles from <code>../../dist/styles.css</code>.</li>
+          <li>Initialize a labelled <code>input</code> or <code>textarea</code> selected with <code>[data-a11y-tag-input]</code>.</li>
+          <li>The source control remains the native form value unless <code>valueElement</code> or <code>data-output-target</code> selects another control.</li>
+          <li><code>separators</code> controls tag entry; <code>outputFormat</code> and <code>serializer</code> control the synchronized value.</li>
+          <li>Use <code>instance.setTags([...])</code> when application code needs to replace tags and synchronize the form value.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>Each source textarea has a visible label and useful description before JavaScript runs.</li>
+          <li>Enter and configured separator keys add tags; Backspace from an empty field reaches the final remove button.</li>
+          <li>The plugin announces add, remove, duplicate, and validation feedback while the continuously changing value previews remain non-live.</li>
+          <li>The submitted preview is announced only after the explicit submit action, avoiding duplicate speech during editing.</li>
+          <li>Reset uses the native form reset behavior and does not intentionally move focus or add an announcement.</li>
+          <li>The shared demo styles provide responsive layout, visible focus, reduced-motion handling, and forced-colors borders.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <p>
+          A space-delimited string cannot represent multiword tags without an escaping convention. Use JSON or another unambiguous
+          serializer when tag values may contain spaces, commas, or other delimiter characters. This page previews submission locally
+          and does not send data to a server.
+        </p>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const form = document.querySelector("#format-form");
+      const csvSource = document.querySelector("#csv-tags");
+      const readableSource = document.querySelector("#readable-tags");
+      const spaceSource = document.querySelector("#space-tags");
+      const submittedValues = document.querySelector("#submitted-values");
+
+      function initialize(source, outputSelector, options = {}) {
+        if (!(source instanceof HTMLTextAreaElement)) return;
+
+        const output = document.querySelector(outputSelector);
+        const updateOutput = () => {
+          if (output instanceof HTMLOutputElement) {
+            output.textContent = source.value || "(empty)";
+          }
+        };
+
+        createTagInput(source, options);
+        updateOutput();
+        source.addEventListener("a11y-tag-input:render", () => queueMicrotask(updateOutput));
+      }
+
+      initialize(csvSource, "#csv-value");
+
+      initialize(readableSource, "#readable-value", {
+        serializer: (tags) => tags.join(", ")
+      });
+
+      initialize(spaceSource, "#space-value", {
+        parser: (value) => value.trim().split(/\s+/),
+        serializer: (tags) => tags.join(" "),
+        invalidChars: /\s/,
+        messages: {
+          invalidChars: "Space-delimited tags cannot contain spaces."
+        }
+      });
+
+      if (form instanceof HTMLFormElement && submittedValues instanceof HTMLOutputElement) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const values = Object.fromEntries(new FormData(form));
+          submittedValues.textContent = JSON.stringify(values, null, 2);
+        });
+
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag input responsive layout fixture</title>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 1rem;
+      }
+
+      #narrow-container {
+        border: 1px solid;
+        inline-size: 15rem;
+        padding: 0.5rem;
+      }
+
+      .probe-frame {
+        border: 0;
+        block-size: 40rem;
+        inset-inline-start: -10000px;
+        position: absolute;
+        visibility: hidden;
+      }
+
+      #visual-frame {
+        block-size: 60rem;
+        inline-size: min(20rem, 100%);
+      }
+
+      #result {
+        display: block;
+        max-inline-size: 100%;
+        overflow-wrap: anywhere;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Tag input responsive layout fixture</h1>
+      <div id="narrow-container">
+        <div class="a11y-tag-input" data-a11y-tag-input-root>
+          <label for="responsive-tags">
+            Very long heading text that wraps onto multiple lines in a narrow embedded container
+          </label>
+          <textarea id="responsive-tags" data-a11y-tag-input>Donaudampfschifffahrtsgesellschaftskapitan</textarea>
+        </div>
+      </div>
+      <h2>Visual 320px demo probe</h2>
+      <iframe
+        id="visual-frame"
+        src="../../examples/basic/index.html"
+        title="Basic demo at a 320 pixel CSS viewport"
+      ></iframe>
+      <output id="result">Waiting for browser check.</output>
+    </main>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#responsive-tags");
+      const container = document.querySelector("#narrow-container");
+      const result = document.querySelector("#result");
+
+      const loadFrame = (path, width) =>
+        new Promise((resolve) => {
+          const frame = document.createElement("iframe");
+          frame.className = "probe-frame";
+          frame.style.inlineSize = `${width}px`;
+          frame.src = path;
+          frame.addEventListener("load", () => resolve(frame), { once: true });
+          document.body.append(frame);
+        });
+
+      const pageFits = (frame) => {
+        const documentElement = frame.contentDocument?.documentElement;
+        if (!documentElement) return false;
+        return documentElement.scrollWidth <= documentElement.clientWidth;
+      };
+
+      if (
+        source instanceof HTMLTextAreaElement &&
+        container instanceof HTMLElement &&
+        result instanceof HTMLOutputElement
+      ) {
+        const instance = createTagInput(source, {
+          messages: {
+            invalidChars:
+              "An inline validation message that explains exactly how to fix the problem without clipping."
+          },
+          invalidChars: /!/
+        });
+        const removeButton = instance.removeButtons[0];
+        instance.addTag("!");
+
+        const componentChecks = {
+          narrowContainerNoOverflow: container.scrollWidth <= container.clientWidth,
+          controlNoOverflow: instance.control.scrollWidth <= instance.control.clientWidth,
+          longTagWraps:
+            Boolean(removeButton) &&
+            removeButton.parentElement instanceof HTMLElement &&
+            removeButton.parentElement.scrollWidth <= removeButton.parentElement.clientWidth,
+          errorWraps: instance.error.scrollWidth <= instance.error.clientWidth,
+          removeTargetAtLeast44:
+            Boolean(removeButton) &&
+            removeButton.getBoundingClientRect().width >= 44 &&
+            removeButton.getBoundingClientRect().height >= 44,
+          fieldTargetAtLeast44: instance.field.getBoundingClientRect().height >= 44
+        };
+
+        for (const width of [240, 320, 480, 640]) {
+          container.style.inlineSize = `${width}px`;
+          componentChecks[`component${width}`] =
+            container.scrollWidth <= container.clientWidth &&
+            instance.control.scrollWidth <= instance.control.clientWidth;
+        }
+        container.style.inlineSize = "240px";
+
+        const paths = [
+          "../../docs/index.html",
+          "../../examples/basic/index.html",
+          "../../examples/character-count/index.html",
+          "../../examples/duplicate-feedback/index.html",
+          "../../examples/localization/index.html",
+          "../../examples/presets/index.html",
+          "../../examples/recent-tags/index.html",
+          "../../examples/validation-hints/index.html",
+          "../../examples/visible-counter/index.html"
+        ];
+        const widths = [320, 360, 390, 640, 768, 1024, 1280, 1440, 1920];
+        const pageChecks = {};
+
+        for (const path of paths) {
+          for (const width of widths) {
+            const frame = await loadFrame(path, width);
+            const example = path.split("/").at(-2)?.replaceAll("-", "_") ?? "unknown";
+            const key = `${example}${width}`;
+            pageChecks[key] = pageFits(frame);
+            frame.remove();
+          }
+        }
+
+        const checks = { ...componentChecks, ...pageChecks };
+        const passed = Object.values(checks).every(Boolean);
+        result.dataset.browserCheck = passed ? "pass" : "fail";
+        result.textContent = JSON.stringify(checks);
+      }
+    </script>
+  </body>
+</html>

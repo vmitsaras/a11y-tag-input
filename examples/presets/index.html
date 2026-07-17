@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preset Tag Sets Recipe | A11y Tag Input</title>
+    <meta name="description" content="Apply reusable support-triage tag presets with semantic buttons, then keep every label editable through the accessible tag input.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/presets/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Preset Tag Sets Recipe | A11y Tag Input">
+    <meta property="og:description" content="Apply reusable support-triage tag presets with semantic buttons, then keep every label editable through the accessible tag input.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/presets/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Preset Tag Sets Recipe | A11y Tag Input">
+    <meta name="twitter:description" content="Apply reusable support-triage tag presets with semantic buttons, then keep every label editable through the accessible tag input.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/presets/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/presets/",
+            "name": "Preset Tag Sets Recipe | A11y Tag Input",
+            "description": "Apply reusable support-triage tag presets with semantic buttons, then keep every label editable through the accessible tag input.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/presets/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/presets/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Addon-style recipe</p>
+      <h1>Preset Tag Sets For Support Triage</h1>
+      <p class="demo-intro">
+        Support leads can apply common label bundles, then edit the final tag list before saving a ticket view.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: start from a useful preset without losing the ability to add or remove individual tags.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ul>
+          <li>Choose the <strong>Escalation</strong> preset.</li>
+          <li>Add a custom tag such as <code>refund</code>.</li>
+          <li>Remove one preset tag with the keyboard.</li>
+          <li>Apply the <strong>Reset queue</strong> preset and confirm the form value changes.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="ticket-tags">Ticket labels</label>
+              <p class="demo-field-help" id="ticket-tags-help">
+                Pick a preset or add individual labels for the support queue.
+              </p>
+              <textarea
+                id="ticket-tags"
+                name="ticket-tags"
+                data-a11y-tag-input
+                data-max-tags="8"
+                aria-describedby="ticket-tags-help"
+              >support,triage</textarea>
+            </div>
+
+            <div class="demo-chip-actions" aria-label="Preset tag sets">
+              <button class="demo-button-secondary" type="button" data-preset="escalation">
+                Escalation
+              </button>
+              <button class="demo-button-secondary" type="button" data-preset="billing">
+                Billing
+              </button>
+              <button class="demo-button-secondary" type="button" data-preset="reset">
+                Reset queue
+              </button>
+            </div>
+
+            <output class="demo-status" id="preset-output" aria-live="polite">
+              No preset has been applied yet.
+            </output>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="notes-title">
+            <h3 id="notes-title">Developer notes</h3>
+            <p>
+              Presets can be simple buttons that call <code>setTags()</code> on the instance.
+            </p>
+            <pre><code>const presets = {
+  escalation: ["urgent", "blocked", "manager-review"]
+};
+
+button.addEventListener("click", () => {
+  instance.setTags(presets.escalation);
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How to build it</h2>
+        <p>Add native buttons for the preset choices, then use the instance API to replace the selected tags and return focus to the field.</p>
+        <div class="demo-grid">
+          <div>
+            <h3>HTML</h3>
+            <pre><code>&lt;textarea id="ticket-tags"&gt;&lt;/textarea&gt;
+&lt;button type="button" data-preset="escalation"&gt;
+  Escalation
+&lt;/button&gt;</code></pre>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>const instance = createTagInput(source);
+
+button.addEventListener("click", () =&gt; {
+  instance.setTags(["urgent", "blocked", "manager-review"]);
+  instance.focus();
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>Preset controls are real buttons with visible text.</li>
+          <li>The status output announces which preset was applied.</li>
+          <li>The tag input keeps its normal keyboard add, remove, and focus behavior after a preset change.</li>
+          <li>Preset names are examples; use labels that match your workflow.</li>
+        </ul>
+      </section>
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>This recipe demonstrates addon-style behavior around the core plugin; production forms still need target browser, assistive technology, touch, zoom, and forced-colors checks.</li>
+          <li>Keep labels, validation copy, and recovery instructions aligned with your own domain language before shipping.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const presets = {
+        escalation: ["urgent", "blocked", "manager-review"],
+        billing: ["billing", "invoice", "follow-up"],
+        reset: ["support", "triage"]
+      };
+      const source = document.querySelector("#ticket-tags");
+      const output = document.querySelector("#preset-output");
+
+      if (source instanceof HTMLTextAreaElement) {
+        const instance = createTagInput(source, {
+          maxTags: 8
+        });
+
+        document.querySelectorAll("[data-preset]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const key = button.getAttribute("data-preset");
+            const tags = key && presets[key] ? presets[key] : [];
+            instance.setTags(tags);
+            instance.focus();
+
+            if (output instanceof HTMLOutputElement) {
+              output.textContent = `${button.textContent.trim()} preset applied: ${tags.join(", ")}.`;
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

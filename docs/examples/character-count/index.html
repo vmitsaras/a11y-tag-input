@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visible Character Count Recipe | A11y Tag Input</title>
+    <meta name="description" content="Add a visible character counter to tag entry while preserving native form syncing, keyboard interaction, and the plugin's validation behavior.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/character-count/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Visible Character Count Recipe | A11y Tag Input">
+    <meta property="og:description" content="Add a visible character counter to tag entry while preserving native form syncing, keyboard interaction, and the plugin's validation behavior.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/character-count/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Visible Character Count Recipe | A11y Tag Input">
+    <meta name="twitter:description" content="Add a visible character counter to tag entry while preserving native form syncing, keyboard interaction, and the plugin's validation behavior.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/character-count/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/character-count/",
+            "name": "Visible Character Count Recipe | A11y Tag Input",
+            "description": "Add a visible character counter to tag entry while preserving native form syncing, keyboard interaction, and the plugin",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/character-count/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/character-count/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Addon-style recipe</p>
+      <h1>Character Count For Topic Tags</h1>
+      <p class="demo-intro">
+        A product team keeps research tags short enough to scan in dashboards while the tag input enforces the same length rule.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: add concise topic tags and see how many characters remain before committing the tag.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ul>
+          <li>Type <code>accessibility</code> and watch the count update.</li>
+          <li>Try a long tag such as <code>internationalization</code>.</li>
+          <li>Press Enter to commit a valid tag.</li>
+          <li>Use Backspace from an empty field to reach the final remove button.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="research-tags">Research topics</label>
+              <p class="demo-field-help" id="research-tags-help">
+                Add short topics for the research digest. Each tag can be 18 characters or fewer.
+              </p>
+              <textarea
+                id="research-tags"
+                name="research-tags"
+                data-a11y-tag-input
+                data-max-tags="6"
+                data-max-length="18"
+                aria-describedby="research-tags-help"
+              >forms,keyboard</textarea>
+            </div>
+
+            <div class="demo-meter" aria-labelledby="character-count-label">
+              <span id="character-count-label">Current tag length</span>
+              <div class="demo-meter-bar" aria-hidden="true">
+                <span class="demo-meter-fill" id="character-count-meter"></span>
+              </div>
+              <output class="demo-status" id="character-count-output" aria-live="polite">
+                0 of 18 characters used.
+              </output>
+            </div>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="notes-title">
+            <h3 id="notes-title">Developer notes</h3>
+            <p>
+              This page uses the core plugin plus demo-only JavaScript that reads <code>instance.field.value</code>.
+            </p>
+            <pre><code>const instance = createTagInput(source, {
+  maxLength: 18,
+  maxTags: 6
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How to build it</h2>
+        <p>Place a live <code>output</code> beside the field, then update it from the generated input while keeping the plugin's maximum-length validation.</p>
+        <div class="demo-grid">
+          <div>
+            <h3>HTML</h3>
+            <pre><code>&lt;textarea id="research-tags"&gt;&lt;/textarea&gt;
+&lt;output id="character-count-output" aria-live="polite"&gt;
+  0 of 18 characters
+&lt;/output&gt;</code></pre>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>const instance = createTagInput(source, { maxLength: 18 });
+
+instance.field.addEventListener("input", () =&gt; {
+  counter.value = `${instance.field.value.length} of 18 characters`;
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>The source textarea has a visible label and description before JavaScript runs.</li>
+          <li>The generated input receives the label and plugin instructions.</li>
+          <li>The character count is exposed through an <code>output</code> with polite updates.</li>
+          <li>The max length is enforced by the generated input and should still be tested with target browsers.</li>
+        </ul>
+      </section>
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>This recipe demonstrates addon-style behavior around the core plugin; production forms still need target browser, assistive technology, touch, zoom, and forced-colors checks.</li>
+          <li>Keep labels, validation copy, and recovery instructions aligned with your own domain language before shipping.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const maxLength = 18;
+      const source = document.querySelector("#research-tags");
+      const output = document.querySelector("#character-count-output");
+      const meter = document.querySelector("#character-count-meter");
+
+      if (source instanceof HTMLTextAreaElement) {
+        const instance = createTagInput(source, {
+          maxLength,
+          maxTags: 6
+        });
+
+        const updateCount = () => {
+          const count = instance.field.value.length;
+          const remaining = maxLength - count;
+
+          if (output instanceof HTMLOutputElement) {
+            output.textContent =
+              remaining >= 0
+                ? `${count} of ${maxLength} characters used. ${remaining} remaining.`
+                : `${count} of ${maxLength} characters used. Shorten this tag.`;
+            output.dataset.tone = remaining < 4 ? "warn" : "";
+          }
+
+          if (meter instanceof HTMLElement) {
+            meter.style.inlineSize = `${Math.min(100, (count / maxLength) * 100)}%`;
+          }
+        };
+
+        instance.field.addEventListener("input", updateCount);
+        source.addEventListener("a11y-tag-input:add", updateCount);
+        source.addEventListener("a11y-tag-input:invalid", updateCount);
+        updateCount();
+      }
+    </script>
+  </body>
+</html>

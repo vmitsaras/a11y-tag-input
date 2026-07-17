@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multilingual Tag Stress Test | A11y Tag Input</title>
+    <meta name="description" content="Stress-test a tag input with IME composition, bidirectional scripts, emoji, accents, and long unbroken values.">
+    <meta name="robots" content="index,follow"><link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/">
+    <meta property="og:type" content="website"><meta property="og:title" content="Multilingual Tag Stress Test | A11y Tag Input"><meta property="og:description" content="Exercise IME, RTL text, emoji, and long tag values."><meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/"><meta name="twitter:card" content="summary">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/",
+            "name": "Multilingual Tag Stress Test | A11y Tag Input",
+            "description": "Stress-test a tag input with IME composition, bidirectional scripts, emoji, accents, and long unbroken values.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/multilingual-stress-test/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css"><link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+    <nav class="demo-site-nav" aria-label="Main navigation"><a class="demo-site-nav__brand" href="../../">A11y Tag Input</a><ul class="demo-site-nav__links"><li><a href="../../">Home</a></li><li><a href="../../#examples" aria-current="location">Examples</a></li><li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li></ul></nav>
+    <header class="demo-hero"><p class="demo-eyebrow">Internationalization stress test</p><h1>Tags Without Language Boundaries</h1><p class="demo-intro">A localization team can probe real scripts, input methods, emoji sequences, and hostile content lengths in one focused lab.</p></header>
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title"><h2 id="scenario-title">Scenario</h2><p>User goal: verify that tag creation, reading, removal, wrapping, and focus behavior remain usable across varied writing systems and input methods.</p></section>
+      <section class="demo-section" aria-labelledby="try-title"><h2 id="try-title">Try it</h2><ul><li>With a Japanese or Chinese IME, compose the complete candidate, finish composition, then press Enter.</li><li>Pressing Enter, comma, or semicolon during active composition must not create a tag.</li><li>Navigate to and remove the Arabic, Hebrew, and emoji tags.</li><li>Test at 320 CSS pixels, 200% zoom, and in forced colors; the page should not gain horizontal scrolling.</li></ul></section>
+      <section class="demo-section" id="example" aria-labelledby="example-title"><h2 id="example-title">Example</h2><div class="demo-grid demo-stress-stage">
+        <form class="demo-form" onsubmit="return false"><div class="a11y-tag-input" data-a11y-tag-input-root><label for="language-tags">Localized search terms</label><p class="demo-field-help" id="language-tags-help">Compose IME text fully, end composition, then press Enter. Existing samples intentionally mix scripts and lengths.</p><textarea id="language-tags" name="terms" data-a11y-tag-input data-output-format="newline" aria-describedby="language-tags-help">日本語
+مرحبا بالعالم
+שלום עולם
+café-crème
+project-مرحبا-2026
+👩🏽‍💻
+accessibilitylocalizationinternationalizationqualityassurancewithoutbreakpoints0123456789</textarea></div></form>
+        <aside class="demo-note" aria-labelledby="samples-title"><h3 id="samples-title">Sample values</h3><ul class="demo-list"><li class="demo-list-item"><strong>Japanese</strong><span class="demo-bidi-sample" dir="auto">日本語</span></li><li class="demo-list-item"><strong>Arabic</strong><span class="demo-bidi-sample" dir="auto">مرحبا بالعالم</span></li><li class="demo-list-item"><strong>Hebrew</strong><span class="demo-bidi-sample" dir="auto">שלום עולם</span></li><li class="demo-list-item"><strong>Mixed direction</strong><span class="demo-bidi-sample" dir="auto">project-مرحبا-2026</span></li><li class="demo-list-item"><strong>Emoji sequence</strong><span class="demo-bidi-sample" dir="auto">👩🏽‍💻</span></li></ul></aside>
+      </div></section>
+      <section class="demo-section" aria-labelledby="implementation-title"><h2 id="implementation-title">How to build it</h2><p>No special initialization is required. The core input already ignores delimiter and Enter keydown events while composition is active. Newline serialization keeps the authored samples readable.</p><pre><code>createTagInput(source, { outputFormat: "newline" });</code></pre></section>
+      <section class="demo-section" aria-labelledby="a11y-title"><h2 id="a11y-title">Accessibility notes</h2><ul><li>IME guidance is visible and programmatically associated with the field.</li><li>Sample values use automatic direction and plaintext bidi isolation where they are displayed outside the widget.</li><li>Tag text and remove-button names retain the complete authored value.</li><li>Long content wraps instead of being visually truncated.</li></ul></section>
+      <section class="demo-section" aria-labelledby="limitations-title"><h2 id="limitations-title">Limitations</h2><p>This page is a browser and assistive-technology test aid, not proof of universal language, font, speech, or IME support. Test the combinations required by your product.</p></section>
+    </main>
+    <footer class="demo-footer"><div class="demo-footer__inner"><div class="demo-footer__brand"><p class="demo-footer__eyebrow">Accessibility plugin demo</p><p class="demo-footer__credit"><span class="demo-footer__plugin">A11y Tag Input</span> &middot; Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a></p></div><nav aria-label="Project links"><ul class="demo-footer__links"><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li></ul></nav></div></footer>
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+      const source = document.querySelector("#language-tags");
+      if (source instanceof HTMLTextAreaElement) createTagInput(source, { outputFormat: "newline" });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form Reset Playground | A11y Tag Input</title>
+    <meta name="description" content="Compare initial, current, submitted, and reset tag values while exercising native form reset behavior.">
+    <meta name="robots" content="index,follow"><link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/">
+    <meta property="og:type" content="website"><meta property="og:title" content="Form Reset Playground | A11y Tag Input"><meta property="og:description" content="Inspect tag values across edit, submit, and native reset states."><meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/"><meta name="twitter:card" content="summary">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/",
+            "name": "Form Reset Playground | A11y Tag Input",
+            "description": "Compare initial, current, submitted, and reset tag values while exercising native form reset behavior.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-reset-playground/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css"><link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+    <nav class="demo-site-nav" aria-label="Main navigation"><a class="demo-site-nav__brand" href="../../">A11y Tag Input</a><ul class="demo-site-nav__links"><li><a href="../../">Home</a></li><li><a href="../../#examples" aria-current="location">Examples</a></li><li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li></ul></nav>
+    <header class="demo-hero"><p class="demo-eyebrow">Form behavior lab</p><h1>Track Values Through Reset</h1><p class="demo-intro">A QA engineer can see exactly which value is authored, edited, submitted, and restored.</p></header>
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title"><h2 id="scenario-title">Scenario</h2><p>User goal: verify that visible tags, the synchronized form control, submission, and native reset stay aligned.</p></section>
+      <section class="demo-section" aria-labelledby="try-title"><h2 id="try-title">Try it</h2><ul><li>Add or remove tags and compare Current with Initial.</li><li>Submit a snapshot, then continue editing.</li><li>Reset the form and confirm Current and Reset restore the defaults.</li><li>Notice that reset leaves focus on the reset button and stays silent.</li></ul></section>
+      <section class="demo-section" id="example" aria-labelledby="example-title"><h2 id="example-title">Example</h2><div class="demo-grid">
+        <form class="demo-form" id="reset-form">
+          <div class="a11y-tag-input" data-a11y-tag-input-root><label for="project-tags">Project topics</label><p class="demo-field-help" id="project-tags-help">Edit the topics, capture a submission, then restore the authored defaults.</p><textarea id="project-tags" name="topics" data-a11y-tag-input aria-describedby="project-tags-help">accessibility,日本語,forms</textarea></div>
+          <div class="demo-actions"><button class="demo-button" type="submit">Capture submitted value</button><button class="demo-button-secondary" type="reset">Reset to initial value</button></div>
+        </form>
+        <aside class="demo-note" aria-labelledby="values-title"><h3 id="values-title">Value comparison</h3><dl class="demo-value-grid">
+          <div><dt>Initial</dt><dd><code id="value-initial" dir="auto"></code></dd></div><div><dt>Current</dt><dd><code id="value-current" dir="auto"></code></dd></div><div><dt>Submitted</dt><dd><code id="value-submitted" dir="auto">Not submitted yet.</code></dd></div><div><dt>Reset</dt><dd><code id="value-reset" dir="auto">Not reset yet.</code></dd></div>
+        </dl></aside>
+      </div></section>
+      <section class="demo-section" aria-labelledby="implementation-title"><h2 id="implementation-title">How to build it</h2><p>Listen for the render event to show current state. On reset, wait one microtask for the plugin's native reset reconciliation before reading <code>getTags()</code>.</p><pre><code>form.addEventListener("reset", () =&gt; {
+  queueMicrotask(() =&gt; updateReset(instance.getTags()));
+});</code></pre></section>
+      <section class="demo-section" aria-labelledby="a11y-title"><h2 id="a11y-title">Accessibility notes</h2><ul><li>The comparison is a description list with visible labels.</li><li>Changing Current is intentionally non-live, avoiding announcements on every edit.</li><li>The native reset remains silent and does not move focus.</li><li>JSON array formatting makes empty and multilingual values explicit.</li></ul></section>
+      <section class="demo-section" aria-labelledby="limitations-title"><h2 id="limitations-title">Limitations</h2><p>The page intercepts submission only to display a snapshot. Production forms must provide their own success, error, and recovery behavior.</p></section>
+    </main>
+    <footer class="demo-footer"><div class="demo-footer__inner"><div class="demo-footer__brand"><p class="demo-footer__eyebrow">Accessibility plugin demo</p><p class="demo-footer__credit"><span class="demo-footer__plugin">A11y Tag Input</span> &middot; Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a></p></div><nav aria-label="Project links"><ul class="demo-footer__links"><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li></ul></nav></div></footer>
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+      const form = document.querySelector("#reset-form"); const source = document.querySelector("#project-tags");
+      const initial = document.querySelector("#value-initial"); const current = document.querySelector("#value-current"); const submitted = document.querySelector("#value-submitted"); const reset = document.querySelector("#value-reset");
+      if (form instanceof HTMLFormElement && source instanceof HTMLTextAreaElement && initial && current && submitted && reset) {
+        const instance = createTagInput(source); const format = (tags) => JSON.stringify(tags);
+        const initialValue = format(instance.getTags()); initial.textContent = initialValue; current.textContent = initialValue;
+        source.addEventListener("a11y-tag-input:render", () => { current.textContent = format(instance.getTags()); });
+        form.addEventListener("submit", (event) => { event.preventDefault(); submitted.textContent = format(instance.getTags()); });
+        form.addEventListener("reset", () => { queueMicrotask(() => { const value = format(instance.getTags()); current.textContent = value; reset.textContent = value; }); });
+      }
+    </script>
+  </body>
+</html>

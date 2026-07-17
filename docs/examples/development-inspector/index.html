@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Development Markup Inspector | A11y Tag Input</title>
+    <meta name="description" content="Inspect A11y Tag Input markup for missing names, broken relationships, malformed options, and invalid output targets before initialization.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/development-inspector/">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/development-inspector/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/development-inspector/",
+            "name": "Development Markup Inspector | A11y Tag Input",
+            "description": "Inspect A11y Tag Input markup for missing names, broken relationships, malformed options, and invalid output targets before initialization.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/development-inspector/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/development-inspector/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Development helper</p>
+      <h1>Find Tag Input Setup Problems Before Initialization</h1>
+      <p class="demo-intro">
+        Scan authored tag input markup on demand and receive structured diagnostics without changing the DOM or logging automatically.
+        Use the results in tests, documentation previews, or your own development tooling.
+      </p>
+    </header>
+
+    <main class="demo-page" id="example">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Review a component example before publishing it</h2>
+        <p>
+          A design-system team is preparing a tag input example for its documentation. The first version contains several configuration
+          mistakes that the runtime would otherwise ignore or encounter later.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ol>
+          <li>Activate <strong>Inspect flawed markup</strong> and confirm that four diagnostics are reported.</li>
+          <li>Review each diagnostic code, severity, and recovery message in the results list.</li>
+          <li>Activate <strong>Inspect corrected markup</strong> and confirm that no diagnostics are found.</li>
+          <li>Use the live corrected example to add and remove tags from an initialized control.</li>
+        </ol>
+        <p>
+          The result count is announced through a status region. Diagnostic details remain in a normal ordered list so they can be
+          reviewed at your own pace.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="flawed-title">
+        <h2 id="flawed-title">Flawed markup</h2>
+        <p>
+          This fixture has no accessible name, uses an unsupported output format, references a missing output target, and contains
+          malformed message JSON. It is isolated with <code>inert</code> so the deliberately unnamed control is not interactive in the demo.
+        </p>
+        <div id="flawed-inspection-root" hidden inert aria-hidden="true">
+          <div data-a11y-tag-input-root>
+            <textarea
+              id="flawed-demo-tags"
+              data-a11y-tag-input
+              data-output-format="xml"
+              data-output-target="#missing-output"
+              data-messages="{not-json"
+            ></textarea>
+          </div>
+        </div>
+        <p>
+          <button class="demo-button" type="button" data-inspection-target="#flawed-inspection-root">
+            Inspect flawed markup
+          </button>
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="corrected-title">
+        <h2 id="corrected-title">Corrected markup</h2>
+        <p>
+          The corrected fixture has a visible label, a supported JSON output format, a valid root-scoped output target, and a JSON object
+          for message overrides.
+        </p>
+        <div id="corrected-inspection-root" hidden inert aria-hidden="true">
+          <div data-a11y-tag-input-root>
+            <label for="corrected-demo-tags">Article tags</label>
+            <textarea
+              id="corrected-demo-tags"
+              data-a11y-tag-input
+              data-output-format="json"
+              data-output-target="#corrected-tags-value"
+              data-messages='{"inputLabel":"Add article tag"}'
+            ></textarea>
+            <input id="corrected-tags-value" name="tags" type="hidden">
+          </div>
+        </div>
+        <p>
+          <button class="demo-button" type="button" data-inspection-target="#corrected-inspection-root">
+            Inspect corrected markup
+          </button>
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="results-title">
+        <h2 id="results-title">Inspection results</h2>
+        <p id="status" role="status">Not inspected yet.</p>
+        <ol id="results"></ol>
+      </section>
+
+      <section class="demo-section" aria-labelledby="live-example-title">
+        <h2 id="live-example-title">Try the corrected tag input</h2>
+        <p>
+          This separate example uses valid markup and the normal runtime initializer. Type a tag and press <kbd>Enter</kbd>, or remove an
+          existing tag, to confirm the enhanced control is interactive.
+        </p>
+        <div class="demo-form">
+          <div class="a11y-tag-input" data-a11y-tag-input-root>
+            <label for="live-demo-tags">Article tags</label>
+            <p id="live-demo-tags-help">Add short topics that describe the article.</p>
+            <textarea
+              id="live-demo-tags"
+              name="article-tags"
+              data-a11y-tag-input
+              aria-describedby="live-demo-tags-help"
+            >accessibility,forms</textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="integration-title">
+        <h2 id="integration-title">Add the inspector to development tooling</h2>
+        <p>
+          Import the separate development entry and run it before initializing tag inputs. The inspector returns its findings; your code
+          decides whether to show them in test output, a documentation preview, or a development overlay.
+        </p>
+        <pre><code>import { inspectTagInputs } from "a11y-tag-input/dev";
+
+const diagnostics = inspectTagInputs({
+  root: document,
+  selector: "[data-a11y-tag-input]"
+});
+
+for (const diagnostic of diagnostics) {
+  reportDiagnostic({
+    code: diagnostic.code,
+    severity: diagnostic.severity,
+    message: diagnostic.message,
+    element: diagnostic.element
+  });
+}</code></pre>
+      </section>
+
+      <section class="demo-section" aria-labelledby="limits-title">
+        <h2 id="limits-title">What the inspector does not establish</h2>
+        <p>
+          The inspector checks static authored markup and selected configuration relationships. It does not reproduce the browser's
+          complete accessible-name computation, test runtime interaction, verify screen reader output, or establish WCAG conformance.
+          Optional WCAG references are review pointers only.
+        </p>
+        <p>Run it before initialization, then test the finished component with your target browsers and assistive technologies.</p>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+      import { inspectTagInputs } from "../../dist/dev.js";
+
+      const buttons = document.querySelectorAll("[data-inspection-target]");
+      const results = document.querySelector("#results");
+      const status = document.querySelector("#status");
+      const liveSource = document.querySelector("#live-demo-tags");
+
+      if (liveSource instanceof HTMLTextAreaElement) {
+        createTagInput(liveSource);
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const selector = button.getAttribute("data-inspection-target");
+          const inspectionRoot = selector ? document.querySelector(selector) : null;
+          const diagnostics = inspectionRoot ? inspectTagInputs({ root: inspectionRoot }) : [];
+
+          results?.replaceChildren(
+            ...diagnostics.map((item) => {
+              const row = document.createElement("li");
+              row.textContent = `${item.severity.toUpperCase()} — ${item.code}: ${item.message}`;
+              return row;
+            })
+          );
+
+          if (status) {
+            status.textContent = diagnostics.length === 0
+              ? "No diagnostics found."
+              : `${diagnostics.length} diagnostics found. Review the list below.`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

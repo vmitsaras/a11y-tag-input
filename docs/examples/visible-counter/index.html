@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visible Tag Counter Recipe | A11y Tag Input</title>
+    <meta name="description" content="Mirror a tag limit with a visible, polite counter so users can track selected skills and recover when the maximum is reached.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Visible Tag Counter Recipe | A11y Tag Input">
+    <meta property="og:description" content="Mirror a tag limit with a visible, polite counter so users can track selected skills and recover when the maximum is reached.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Visible Tag Counter Recipe | A11y Tag Input">
+    <meta name="twitter:description" content="Mirror a tag limit with a visible, polite counter so users can track selected skills and recover when the maximum is reached.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/",
+            "name": "Visible Tag Counter Recipe | A11y Tag Input",
+            "description": "Mirror a tag limit with a visible, polite counter so users can track selected skills and recover when the maximum is reached.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/visible-counter/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Addon-style recipe</p>
+      <h1>Visible Tag Counter For Hiring Skills</h1>
+      <p class="demo-intro">
+        Recruiters need a visible count while selecting the few skills that matter most for a role.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: choose up to four role skills and understand when the limit has been reached.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ul>
+          <li>Add tags until the counter reaches four of four.</li>
+          <li>Try typing another tag after the limit is reached.</li>
+          <li>Remove one tag and confirm the counter updates.</li>
+          <li>Submit the form to inspect the synchronized value.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="skill-tags">Role skills</label>
+              <p class="demo-field-help" id="skill-tags-help">
+                Add up to four skills for the hiring scorecard.
+              </p>
+              <textarea
+                id="skill-tags"
+                name="skill-tags"
+                data-a11y-tag-input
+                data-max-tags="4"
+                data-lowercase="true"
+                aria-describedby="skill-tags-help"
+              >research,writing</textarea>
+            </div>
+
+            <div class="demo-meter" aria-labelledby="tag-counter-label">
+              <span id="tag-counter-label">Selected skill count</span>
+              <div class="demo-meter-bar" aria-hidden="true">
+                <span class="demo-meter-fill" id="tag-counter-meter"></span>
+              </div>
+              <output class="demo-status" id="tag-counter-output" aria-live="polite">
+                2 of 4 skills selected.
+              </output>
+            </div>
+
+            <button class="demo-button" type="submit">Show form value</button>
+            <output class="demo-output" id="form-output">Not submitted yet.</output>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="notes-title">
+            <h3 id="notes-title">Developer notes</h3>
+            <p>
+              The plugin has a hidden counter for assistive tech when <code>maxTags</code> is finite. This demo adds a visible counter beside it.
+            </p>
+            <pre><code>const instance = createTagInput(source, {
+  maxTags: 4,
+  lowercase: true
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How to build it</h2>
+        <p>Add a visible live <code>output</code>, then refresh its text whenever the plugin reports that a tag was added or removed.</p>
+        <div class="demo-grid">
+          <div>
+            <h3>HTML</h3>
+            <pre><code>&lt;textarea id="skill-tags"&gt;&lt;/textarea&gt;
+&lt;output id="tag-counter-output" aria-live="polite"&gt;
+  0 of 4 skills selected.
+&lt;/output&gt;</code></pre>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>const instance = createTagInput(source, { maxTags: 4 });
+
+const updateCounter = () =&gt; {
+  counter.value = `${instance.getTags().length} of 4 skills selected.`;
+};
+
+source.addEventListener("a11y-tag-input:add", updateCounter);
+source.addEventListener("a11y-tag-input:remove", updateCounter);</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>The visible counter is an <code>output</code> with polite updates.</li>
+          <li>The plugin also keeps its internal counter connected to the generated input.</li>
+          <li>The limit state uses text and status messages, not color alone.</li>
+          <li>Keep visible counters close to the field they describe.</li>
+        </ul>
+      </section>
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>This recipe demonstrates addon-style behavior around the core plugin; production forms still need target browser, assistive technology, touch, zoom, and forced-colors checks.</li>
+          <li>Keep labels, validation copy, and recovery instructions aligned with your own domain language before shipping.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const maxTags = 4;
+      const source = document.querySelector("#skill-tags");
+      const form = document.querySelector("form");
+      const counter = document.querySelector("#tag-counter-output");
+      const meter = document.querySelector("#tag-counter-meter");
+      const formOutput = document.querySelector("#form-output");
+
+      if (source instanceof HTMLTextAreaElement) {
+        const instance = createTagInput(source, {
+          maxTags,
+          lowercase: true
+        });
+
+        const updateCounter = () => {
+          const count = instance.getTags().length;
+          const remaining = maxTags - count;
+
+          if (counter instanceof HTMLOutputElement) {
+            counter.dataset.tone = remaining === 0 ? "warn" : "";
+            counter.textContent =
+              remaining === 0
+                ? `${count} of ${maxTags} skills selected. Remove one to add another.`
+                : `${count} of ${maxTags} skills selected. ${remaining} remaining.`;
+          }
+
+          if (meter instanceof HTMLElement) {
+            meter.style.inlineSize = `${(count / maxTags) * 100}%`;
+          }
+        };
+
+        source.addEventListener("a11y-tag-input:add", updateCounter);
+        source.addEventListener("a11y-tag-input:remove", updateCounter);
+        source.addEventListener("a11y-tag-input:limit", updateCounter);
+        updateCounter();
+
+        form?.addEventListener("submit", (event) => {
+          event.preventDefault();
+          if (formOutput instanceof HTMLOutputElement) {
+            formOutput.textContent = source.value || "(empty)";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

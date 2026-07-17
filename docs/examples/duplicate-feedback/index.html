@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Duplicate Tag Feedback Recipe | A11y Tag Input</title>
+    <meta name="description" content="Show clear duplicate-tag rejection feedback for release labels while keeping the accessible tag input's validation and focus behavior.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Duplicate Tag Feedback Recipe | A11y Tag Input">
+    <meta property="og:description" content="Show clear duplicate-tag rejection feedback for release labels while keeping the accessible tag input's validation and focus behavior.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Duplicate Tag Feedback Recipe | A11y Tag Input">
+    <meta name="twitter:description" content="Show clear duplicate-tag rejection feedback for release labels while keeping the accessible tag input's validation and focus behavior.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/",
+            "name": "Duplicate Tag Feedback Recipe | A11y Tag Input",
+            "description": "Show clear duplicate-tag rejection feedback for release labels while keeping the accessible tag input",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/duplicate-feedback/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Addon-style recipe</p>
+      <h1>Duplicate Feedback For Release Labels</h1>
+      <p class="demo-intro">
+        Release managers need duplicate labels rejected with clear, calm feedback instead of silent failure.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: build a small release label set and understand immediately when a duplicate tag is rejected.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ul>
+          <li>Type <code>docs</code> and press Enter.</li>
+          <li>Type <code>security</code> and press Enter.</li>
+          <li>Type <code>docs</code> again and inspect the duplicate feedback.</li>
+          <li>Remove a tag and add it again.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="release-labels">Release labels</label>
+              <p class="demo-field-help" id="release-labels-help">
+                Add unique labels for the release note filter.
+              </p>
+              <textarea
+                id="release-labels"
+                name="release-labels"
+                data-a11y-tag-input
+                data-max-tags="8"
+                aria-describedby="release-labels-help"
+              >docs,qa</textarea>
+            </div>
+
+            <output class="demo-status" id="duplicate-output" aria-live="polite" hidden></output>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="notes-title">
+            <h3 id="notes-title">Developer notes</h3>
+            <p>
+              Duplicate rejection is built into the core plugin when <code>allowDuplicates</code> is false.
+            </p>
+            <pre><code>createTagInput(source, {
+  allowDuplicates: false,
+  messages: {
+    duplicateTag: "{tag} is already in this release."
+  }
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How to build it</h2>
+        <p>Start with a semantic textarea, then customize the duplicate message while the plugin handles visible and announced feedback.</p>
+        <div class="demo-grid">
+          <div>
+            <h3>HTML</h3>
+            <pre><code>&lt;textarea id="release-labels" name="release-labels"&gt;
+docs,qa
+&lt;/textarea&gt;</code></pre>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>const source = document.querySelector("#release-labels");
+
+createTagInput(source, {
+  allowDuplicates: false,
+  messages: {
+    duplicateTag: "{tag} is already in this release."
+  }
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>The plugin sets <code>aria-invalid</code> and <code>aria-errormessage</code> for rejected duplicates.</li>
+          <li>The plugin exposes one canonical field-level error for rejected duplicates.</li>
+          <li>The separate demo output is reserved for successful actions.</li>
+          <li>Keyboard users stay in the field after a duplicate rejection so they can edit the value.</li>
+          <li>Test final copy with target assistive technologies before shipping.</li>
+        </ul>
+      </section>
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>This recipe demonstrates addon-style behavior around the core plugin; production forms still need target browser, assistive technology, touch, zoom, and forced-colors checks.</li>
+          <li>Keep labels, validation copy, and recovery instructions aligned with your own domain language before shipping.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#release-labels");
+      const output = document.querySelector("#duplicate-output");
+
+      if (source instanceof HTMLTextAreaElement) {
+        createTagInput(source, {
+          allowDuplicates: false,
+          maxTags: 8,
+          messages: {
+            duplicateTag: "{tag} is already in this release."
+          }
+        });
+
+        source.addEventListener("a11y-tag-input:add", (event) => {
+          if (output instanceof HTMLOutputElement) {
+            output.hidden = false;
+            output.textContent = `${event.detail.tag} added. Current labels: ${event.detail.tags.join(", ")}.`;
+          }
+        });
+
+        const clearSuccessOutput = () => {
+          if (output instanceof HTMLOutputElement) {
+            output.hidden = true;
+            output.textContent = "";
+          }
+        };
+
+        source.addEventListener("a11y-tag-input:invalid", clearSuccessOutput);
+        source.addEventListener("a11y-tag-input:limit", clearSuccessOutput);
+      }
+    </script>
+  </body>
+</html>

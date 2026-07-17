@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Required tag input browser fixture</title>
+    <link rel="stylesheet" href="../../dist/styles.css">
+  </head>
+  <body>
+    <main>
+      <h1>Required tag input browser fixture</h1>
+      <form id="required-form">
+        <label id="topics-label" for="required-tags">Topics</label>
+        <div class="a11y-tag-input" data-a11y-tag-input-root>
+          <textarea id="required-tags" name="topics" data-a11y-tag-input required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <output id="result">Waiting for browser check.</output>
+    </main>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#required-tags");
+      const form = document.querySelector("#required-form");
+      const label = document.querySelector("#topics-label");
+      const result = document.querySelector("#result");
+
+      if (
+        source instanceof HTMLTextAreaElement &&
+        form instanceof HTMLFormElement &&
+        label instanceof HTMLLabelElement &&
+        result instanceof HTMLOutputElement
+      ) {
+        const instance = createTagInput(source);
+        const valid = form.reportValidity();
+        const checks = {
+          valid,
+          focusedGeneratedField: document.activeElement === instance.field,
+          sourceReleasedRequired: source.required === false,
+          generatedFieldInvalid: instance.field.validity.valid === false,
+          labelRetargeted: label.htmlFor === instance.field.id
+        };
+        const passed = Object.entries(checks).every(([name, value]) =>
+          name === "valid" ? value === false : value === true
+        );
+
+        result.dataset.browserCheck = passed ? "pass" : "fail";
+        result.textContent = JSON.stringify(checks);
+      }
+    </script>
+  </body>
+</html>

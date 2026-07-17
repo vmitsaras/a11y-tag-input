@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Publish Article Form Validation | A11y Tag Input</title>
+    <meta name="description" content="Combine A11y Tag Input with A11y Form Validator using committed-tag rules, one error owner, and a focusable form error summary.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Publish Article Form Validation | A11y Tag Input">
+    <meta property="og:description" content="Combine A11y Tag Input with A11y Form Validator using committed-tag rules, one error owner, and a focusable form error summary.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Publish Article Form Validation | A11y Tag Input">
+    <meta name="twitter:description" content="Combine A11y Tag Input with A11y Form Validator using committed-tag rules, one error owner, and a focusable form error summary.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/",
+            "name": "Publish Article Form Validation | A11y Tag Input",
+            "description": "Combine A11y Tag Input with A11y Form Validator using committed-tag rules, one error owner, and a focusable form error summary.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/form-validator-integration/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../../demo-vendor/a11y-form-validator/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header class="demo-hero">
+      <p class="demo-eyebrow">Real-world integration / Editorial guide</p>
+      <h1>Publish With One Clear Error Path</h1>
+      <p class="demo-intro">
+        Editors need useful topic tags and a form that explains every blocked submission. This example lets two accessibility plugins collaborate without competing for the tag field's error state.
+      </p>
+    </header>
+
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title">
+        <h2 id="scenario-title">Scenario</h2>
+        <p>
+          User goal: prepare an article with a title, editor contact, and at least two committed topic tags before publishing.
+        </p>
+      </section>
+
+      <section class="demo-section" aria-labelledby="try-title">
+        <h2 id="try-title">Try it</h2>
+        <ol class="demo-integration-sequence">
+          <li><span>Submit the empty form and use the focused summary links.</span></li>
+          <li><span>Enter <code>not-an-email</code>, type <code>draft</code> without pressing Enter, and submit again.</span></li>
+          <li><span>Commit <code>accessibility</code> with Enter and confirm one tag is still insufficient.</span></li>
+          <li><span>Add <code>forms</code>, correct the other fields, and publish successfully.</span></li>
+          <li><span>Use Reset draft to return to the initial state without stale errors.</span></li>
+        </ol>
+      </section>
+
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form demo-integration-form" id="publish-article-form" data-a11y-form-validator>
+            <div class="demo-integration-field">
+              <label for="article-title">Article title</label>
+              <p class="demo-field-help" id="article-title-help">Use a short, descriptive working title.</p>
+              <input id="article-title" name="title" required aria-describedby="article-title-help">
+            </div>
+
+            <div class="demo-integration-field">
+              <label for="editor-email">Editor email</label>
+              <p class="demo-field-help" id="editor-email-help">Used only for this local demonstration; nothing is sent.</p>
+              <input id="editor-email" name="editorEmail" type="email" required aria-describedby="editor-email-help">
+            </div>
+
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="article-topics">Topic tags</label>
+              <p class="demo-field-help" id="article-topics-help">
+                Commit at least two tags with Enter, comma, or semicolon. Use 2 to 24 lowercase letters, numbers, or hyphens per tag.
+              </p>
+              <textarea
+                id="article-topics"
+                name="topics"
+                data-a11y-tag-input
+                aria-describedby="article-topics-help"
+              ></textarea>
+            </div>
+
+            <div class="demo-actions">
+              <button class="demo-button" type="submit">Publish article</button>
+              <button class="demo-button-secondary" type="reset">Reset draft</button>
+            </div>
+
+            <output class="demo-output demo-integration-result" id="publish-result" aria-live="polite">No successful submission yet.</output>
+          </form>
+
+          <aside class="demo-note" aria-labelledby="ownership-title">
+            <h3 id="ownership-title">One owner per error</h3>
+            <p>
+              <a href="https://github.com/vmitsaras/A11y-Form-Validator">A11y Form Validator</a> checks the whole form and builds the summary. For the generated tag field, its adapter calls <code>setValidationError()</code> instead of creating a second inline error.
+            </p>
+            <pre><code>const tagInput = createTagInput(source);
+
+const validator = createFormValidator(form, {
+  ...createDefaultPreset(),
+  validateOn: ["submit"],
+  renderer: createTagRenderer(tagInput),
+  rules: {
+    [tagInput.field.id]: {
+      "minimum-tags": { min: 2 }
+    }
+  }
+});</code></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="implementation-title">
+        <h2 id="implementation-title">How the integration works</h2>
+        <div class="demo-grid">
+          <div>
+            <h3>Initialization order</h3>
+            <ol>
+              <li>Enhance the semantic textarea with A11y Tag Input.</li>
+              <li>Create a renderer that recognizes the generated text field.</li>
+              <li>Initialize A11y Form Validator so it discovers that field.</li>
+              <li>Register the custom rule before the user can submit.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Value boundary</h3>
+            <p>
+              The form rule reads <code>tagInput.getTags()</code>. Text still sitting in the generated input is a draft, so it cannot accidentally satisfy the minimum-tag requirement.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section" aria-labelledby="a11y-title">
+        <h2 id="a11y-title">Accessibility notes</h2>
+        <ul>
+          <li>Labels and hints exist before either plugin initializes.</li>
+          <li>Blocked submission focuses one error summary with field-labelled links.</li>
+          <li>A11y Tag Input remains the only owner of the tag field's visible error, <code>aria-invalid</code>, and <code>aria-errormessage</code>.</li>
+          <li>Candidate-tag feedback uses the tag input status region; form-level tag-count feedback uses the summary without moving focus during recovery.</li>
+          <li>Visible error text and summary links avoid color-only feedback.</li>
+          <li>Focus motion respects reduced-motion preferences, and controls retain forced-colors boundaries.</li>
+        </ul>
+      </section>
+
+      <section class="demo-section" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limitations</h2>
+        <ul>
+          <li>The adapter maps one generated tag field to one tag input instance; repeat the mapping deliberately for multiple widgets.</li>
+          <li>Tag changes refresh form-level state after the first submit, but only a blocked submit moves focus to the summary.</li>
+          <li>Client-side validation improves recovery but does not replace server-side validation.</li>
+          <li>Test the final integration with the browsers, screen readers, zoom levels, touch input, and language settings your product supports.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">Tag input repository</a></li>
+            <li><a class="demo-footer__link" href="https://github.com/vmitsaras/A11y-Form-Validator">Form validator repository</a></li>
+            <li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+      import {
+        ErrorRenderer,
+        createDefaultPreset,
+        createFormValidator
+      } from "../../demo-vendor/a11y-form-validator/index.js";
+
+      const form = document.querySelector("#publish-article-form");
+      const source = document.querySelector("#article-topics");
+      const result = document.querySelector("#publish-result");
+
+      if (
+        form instanceof HTMLFormElement &&
+        source instanceof HTMLTextAreaElement &&
+        result instanceof HTMLOutputElement
+      ) {
+        const tagInput = createTagInput(source, {
+          maxTags: 6,
+          lowercase: true,
+          minLength: 2,
+          maxLength: 24,
+          invalidChars: /[^a-z0-9-]/,
+          messages: {
+            invalidChars: "Use lowercase letters, numbers, and hyphens only.",
+            tooShortTag: "Use at least {min} characters.",
+            tooLongTag: "Use {max} characters or fewer."
+          }
+        });
+
+        let fallbackRenderer;
+        const getFallbackRenderer = (field) => {
+          fallbackRenderer ??= new ErrorRenderer(field.validator);
+          return fallbackRenderer;
+        };
+
+        const renderer = {
+          render(field, message) {
+            if (field.primaryElement === tagInput.field) {
+              tagInput.setValidationError(message);
+              field.setVisualState("invalid");
+              return;
+            }
+
+            getFallbackRenderer(field).render(field, message);
+          },
+          clear(field) {
+            if (field.primaryElement === tagInput.field) {
+              tagInput.setValidationError(null);
+              field.setVisualState("valid");
+              return;
+            }
+
+            getFallbackRenderer(field).clear(field);
+          },
+          destroy() {
+            tagInput.setValidationError(null);
+            fallbackRenderer?.destroy();
+          }
+        };
+
+        let submitRequested = false;
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          submitRequested = true;
+        });
+
+        const validator = createFormValidator(form, {
+          ...createDefaultPreset(),
+          validateOn: ["submit"],
+          renderer,
+          rules: {
+            [tagInput.field.id]: {
+              "minimum-tags": { min: 2 }
+            }
+          }
+        });
+
+        validator.registerRule("minimum-tags", ({ options }) => {
+          const minimum = Number(options.min ?? 2);
+          const count = tagInput.getTags().length;
+          return {
+            valid: count >= minimum,
+            message: `Add at least ${minimum} committed topic tags. You currently have ${count}.`
+          };
+        });
+
+        source.addEventListener("a11y-tag-input:change", () => {
+          if (validator.hasSubmitted) {
+            void validator.validate({ reason: "change" });
+          }
+        });
+
+        form.addEventListener("a11y-form-validator:form-valid", () => {
+          if (!submitRequested) return;
+
+          const formData = new FormData(form);
+          result.textContent = JSON.stringify(
+            {
+              title: formData.get("title"),
+              editorEmail: formData.get("editorEmail"),
+              topics: tagInput.getTags()
+            },
+            null,
+            2
+          );
+          submitRequested = false;
+        });
+
+        form.addEventListener("a11y-form-validator:form-invalid", () => {
+          submitRequested = false;
+        });
+
+        form.addEventListener("reset", () => {
+          queueMicrotask(() => {
+            validator.reset();
+            submitRequested = false;
+            result.textContent = "No successful submission yet.";
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

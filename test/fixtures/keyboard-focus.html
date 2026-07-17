@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag input keyboard focus fixture</title>
+    <link rel="stylesheet" href="../../dist/styles.css">
+  </head>
+  <body>
+    <main>
+      <h1>Tag input keyboard focus fixture</h1>
+      <button type="button">Before tag editor</button>
+      <div class="a11y-tag-input" data-a11y-tag-input-root>
+        <label for="keyboard-tags">Topics</label>
+        <textarea id="keyboard-tags" data-a11y-tag-input>html,css,aria</textarea>
+      </div>
+      <button type="button">After tag editor</button>
+      <output id="result">Waiting for browser check.</output>
+    </main>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#keyboard-tags");
+      const result = document.querySelector("#result");
+
+      const keydown = (target, key) => {
+        const event = new KeyboardEvent("keydown", {
+          key,
+          bubbles: true,
+          cancelable: true
+        });
+        target.dispatchEvent(event);
+        return event;
+      };
+
+      if (source instanceof HTMLTextAreaElement && result instanceof HTMLOutputElement) {
+        const instance = createTagInput(source);
+        const oneTabStop = () =>
+          [instance.field, ...instance.removeButtons].filter(
+            (element) => !element.disabled && element.tabIndex === 0
+          ).length === 1;
+
+        const checks = {
+          initialFieldTabStop:
+            instance.field.tabIndex === 0 &&
+            instance.removeButtons.every((button) => button.tabIndex === -1),
+          oneInitialTabStop: oneTabStop()
+        };
+
+        instance.field.focus();
+        keydown(instance.field, "Backspace");
+        checks.backspaceFocusedLast =
+          document.activeElement === instance.removeButtons[2] && oneTabStop();
+
+        keydown(instance.removeButtons[2], "ArrowLeft");
+        checks.arrowMovedRovingStop =
+          document.activeElement === instance.removeButtons[1] &&
+          instance.removeButtons[1].tabIndex === 0 &&
+          oneTabStop();
+
+        const tabEvent = keydown(instance.removeButtons[1], "Tab");
+        checks.tabNotIntercepted = tabEvent.defaultPrevented === false;
+
+        keydown(instance.removeButtons[1], "End");
+        checks.endReturnedToField =
+          document.activeElement === instance.field && instance.field.tabIndex === 0 && oneTabStop();
+
+        keydown(instance.field, "Backspace");
+        keydown(instance.removeButtons[2], "Delete");
+        checks.deleteRestoredFocus =
+          instance.getTags().join(",") === "html,css" &&
+          document.activeElement === instance.removeButtons[1] &&
+          oneTabStop();
+
+        instance.removeButtons[1].click();
+        checks.nativeClickRestoredFocus =
+          instance.getTags().join(",") === "html" &&
+          document.activeElement === instance.removeButtons[0] &&
+          oneTabStop();
+
+        instance.removeButtons[0].click();
+        checks.emptyStateReturnedToField =
+          instance.getTags().length === 0 &&
+          document.activeElement === instance.field &&
+          oneTabStop();
+
+        const passed = Object.values(checks).every(Boolean);
+        result.dataset.browserCheck = passed ? "pass" : "fail";
+        result.textContent = JSON.stringify(checks);
+      }
+    </script>
+  </body>
+</html>

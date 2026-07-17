@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag input screen reader status fixture</title>
+    <link rel="stylesheet" href="../../dist/styles.css">
+  </head>
+  <body>
+    <main>
+      <h1>Tag input screen reader status fixture</h1>
+      <div class="a11y-tag-input" data-a11y-tag-input-root>
+        <label for="status-tags">Topics</label>
+        <textarea id="status-tags" data-a11y-tag-input data-max-tags="3">html</textarea>
+      </div>
+      <output id="result">Waiting for browser check.</output>
+    </main>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("#status-tags");
+      const result = document.querySelector("#result");
+      const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+      const keydown = (target, key) => {
+        const event = new KeyboardEvent("keydown", {
+          key,
+          bubbles: true,
+          cancelable: true
+        });
+        target.dispatchEvent(event);
+        return event;
+      };
+
+      const paste = (target, text) => {
+        const event = new ClipboardEvent("paste", { bubbles: true, cancelable: true });
+        Object.defineProperty(event, "clipboardData", {
+          value: { getData: (type) => (type === "text" ? text : "") }
+        });
+        target.dispatchEvent(event);
+      };
+
+      if (source instanceof HTMLTextAreaElement && result instanceof HTMLOutputElement) {
+        const instance = createTagInput(source);
+        const originalStatus = instance.status;
+        const describedBy = instance.field.getAttribute("aria-describedby")?.split(/\s+/) ?? [];
+        const checks = {
+          persistentPoliteStatus:
+            originalStatus.getAttribute("role") === "status" &&
+            originalStatus.getAttribute("aria-live") === "polite" &&
+            originalStatus.getAttribute("aria-atomic") === "true",
+          usefulDescription:
+            describedBy.includes(`${instance.field.id}--instructions`) &&
+            describedBy.includes(`${instance.field.id}--counter`) &&
+            !describedBy.includes(`${instance.field.id}--error`)
+        };
+
+        instance.announce("Repeated message.");
+        checks.firstMessageImmediate = originalStatus.textContent === "Repeated message.";
+        instance.announce("Repeated message.");
+        checks.repeatUsesSeparateUpdate = originalStatus.textContent === "";
+        await wait(120);
+        checks.repeatRestored = originalStatus.textContent === "Repeated message.";
+
+        instance.announce("Repeated message.");
+        instance.announce("New message.");
+        await wait(120);
+        checks.newMessageCanceledStaleRepeat = originalStatus.textContent === "New message.";
+
+        instance.addTag("html");
+        checks.errorRelationship =
+          instance.field.getAttribute("aria-invalid") === "true" &&
+          instance.field.getAttribute("aria-errormessage") === instance.error.id &&
+          !instance.error.hidden &&
+          instance.error.textContent === "Tag html already exists.";
+
+        instance.addTag("html");
+        checks.repeatedErrorUsesSeparateUpdate = originalStatus.textContent === "";
+        await wait(120);
+        checks.repeatedErrorRestored = originalStatus.textContent === "Tag html already exists.";
+
+        paste(instance.field, "css;html;aria");
+        checks.pasteUsesOneSummary = originalStatus.textContent === "Added 2 tags. 1 skipped.";
+        checks.statusSurvivesRerender = instance.status === originalStatus && originalStatus.isConnected;
+
+        const firstLimitEvent = keydown(instance.field, "a");
+        const firstLimitMessage = originalStatus.textContent;
+        const secondLimitEvent = keydown(instance.field, "b");
+        checks.limitFeedbackNotRepeated =
+          firstLimitEvent.defaultPrevented &&
+          secondLimitEvent.defaultPrevented &&
+          firstLimitMessage === "Maximum of 3 tags reached." &&
+          originalStatus.textContent === firstLimitMessage;
+
+        const passed = Object.values(checks).every(Boolean);
+        result.dataset.browserCheck = passed ? "pass" : "fail";
+        result.textContent = JSON.stringify(checks);
+      }
+    </script>
+  </body>
+</html>

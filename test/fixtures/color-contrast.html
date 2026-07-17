@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag input color and forced-colors fixture</title>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #ffffff;
+        color: #111827;
+        font-family: system-ui, sans-serif;
+        margin: 1rem;
+      }
+
+      main {
+        display: grid;
+        gap: 1.5rem;
+        max-inline-size: 48rem;
+      }
+
+      #demo-frame {
+        block-size: 32rem;
+        inline-size: min(100%, 40rem);
+      }
+
+      #result {
+        display: block;
+        overflow-wrap: anywhere;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Tag input color and forced-colors fixture</h1>
+
+      <section aria-labelledby="invalid-title">
+        <h2 id="invalid-title">Focused invalid state</h2>
+        <div class="a11y-tag-input" data-a11y-tag-input-root>
+          <label for="contrast-tags">Topics</label>
+          <textarea id="contrast-tags" data-a11y-tag-input>html</textarea>
+        </div>
+      </section>
+
+      <section aria-labelledby="disabled-title">
+        <h2 id="disabled-title">Disabled state</h2>
+        <div class="a11y-tag-input" data-a11y-tag-input-root>
+          <label for="disabled-tags">Disabled topics</label>
+          <textarea id="disabled-tags" data-a11y-tag-input>css</textarea>
+        </div>
+      </section>
+
+      <iframe
+        id="demo-frame"
+        src="../../examples/basic/index.html"
+        title="Basic demo color probe"
+      ></iframe>
+
+      <output id="result">Waiting for browser check.</output>
+    </main>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const invalidSource = document.querySelector("#contrast-tags");
+      const disabledSource = document.querySelector("#disabled-tags");
+      const demoFrame = document.querySelector("#demo-frame");
+      const result = document.querySelector("#result");
+      const expectedMode = new URLSearchParams(location.search).get("mode") ?? "normal";
+
+      addEventListener("error", (event) => {
+        if (!(result instanceof HTMLOutputElement)) return;
+        result.dataset.browserCheck = "error";
+        result.textContent = event.error?.stack ?? event.message;
+      });
+      addEventListener("unhandledrejection", (event) => {
+        if (!(result instanceof HTMLOutputElement)) return;
+        result.dataset.browserCheck = "error";
+        result.textContent = event.reason?.stack ?? String(event.reason);
+      });
+
+      const waitForFrame = (frame) =>
+        frame.contentDocument?.URL === frame.src &&
+        frame.contentDocument?.readyState === "complete"
+          ? Promise.resolve()
+          : new Promise((resolve) => frame.addEventListener("load", resolve, { once: true }));
+
+      const rgb = (value) => {
+        const channels = value.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+        return channels?.length === 3 ? channels : null;
+      };
+
+      const luminance = (value) => {
+        const channels = rgb(value);
+        if (!channels) return null;
+        const [red, green, blue] = channels.map((channel) => {
+          const normalized = channel / 255;
+          return normalized <= 0.04045
+            ? normalized / 12.92
+            : ((normalized + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+      };
+
+      const contrast = (foreground, background) => {
+        const foregroundLuminance = luminance(foreground);
+        const backgroundLuminance = luminance(background);
+        if (foregroundLuminance === null || backgroundLuminance === null) return 0;
+        return (
+          (Math.max(foregroundLuminance, backgroundLuminance) + 0.05) /
+          (Math.min(foregroundLuminance, backgroundLuminance) + 0.05)
+        );
+      };
+
+      const styleFor = (element, pseudo = null) =>
+        element.ownerDocument.defaultView?.getComputedStyle(element, pseudo) ??
+        getComputedStyle(element, pseudo);
+
+      const hasVisibleBorder = (element) => {
+        const style = styleFor(element);
+        return (
+          Number.parseFloat(style.borderTopWidth) >= 1 &&
+          style.borderTopStyle !== "none" &&
+          style.borderTopColor !== "transparent"
+        );
+      };
+
+      const hasVisibleOutline = (element, minimumWidth = 2) => {
+        const style = styleFor(element);
+        return (
+          Number.parseFloat(style.outlineWidth) >= minimumWidth &&
+          style.outlineStyle !== "none" &&
+          style.outlineColor !== "transparent"
+        );
+      };
+
+      if (
+        invalidSource instanceof HTMLTextAreaElement &&
+        disabledSource instanceof HTMLTextAreaElement &&
+        demoFrame instanceof HTMLIFrameElement &&
+        result instanceof HTMLOutputElement
+      ) {
+        const invalidInstance = createTagInput(invalidSource);
+        const disabledInstance = createTagInput(disabledSource);
+        invalidInstance.addTag("html");
+        invalidInstance.field.focus();
+        disabledInstance.disable();
+        await waitForFrame(demoFrame);
+
+        const demoDocument = demoFrame.contentDocument;
+        const demoBody = demoDocument?.body;
+        const demoIntro = demoDocument?.querySelector(".intro");
+        const demoButton = demoDocument?.querySelector('button[type="submit"]');
+        const demoOutput = demoDocument?.querySelector("output");
+        const demoPre = demoDocument?.querySelector("pre");
+        const demoFooter = demoDocument?.querySelector(".demo-footer");
+        const demoFooterMeta = demoDocument?.querySelector(".demo-footer__meta");
+        const demoFooterLink = demoDocument?.querySelector(".demo-footer__link");
+        const demoSection = demoDocument?.querySelectorAll(".section")[1];
+
+        if (
+          !demoBody ||
+          !demoIntro ||
+          !demoButton ||
+          !demoOutput ||
+          !demoPre ||
+          !demoFooter ||
+          !demoFooterMeta ||
+          !demoFooterLink ||
+          !demoSection
+        ) {
+          throw new Error("Demo color probe elements were not available.");
+        }
+
+        const forcedColorsActive = matchMedia("(forced-colors: active)").matches;
+        const checks = {
+          expectedMode:
+            expectedMode === "forced" ? forcedColorsActive : !forcedColorsActive
+        };
+
+        if (forcedColorsActive) {
+          const invalidRemove = invalidInstance.removeButtons[0];
+          const disabledRemove = disabledInstance.removeButtons[0];
+          const componentFocusIndicator = hasVisibleOutline(invalidInstance.control);
+          demoButton.focus();
+
+          Object.assign(checks, {
+            componentControlBorder: hasVisibleBorder(invalidInstance.control),
+            invalidControlBorder: hasVisibleBorder(invalidInstance.control),
+            removeButtonBoundary:
+              Boolean(invalidRemove) && hasVisibleBorder(invalidRemove),
+            disabledRemoveBoundary:
+              Boolean(disabledRemove) && hasVisibleBorder(disabledRemove),
+            componentFocusIndicator,
+            demoSectionBoundary: hasVisibleBorder(demoSection),
+            demoButtonBoundary: hasVisibleBorder(demoButton),
+            demoOutputBoundary: hasVisibleBorder(demoOutput),
+            demoCodeBoundary: hasVisibleBorder(demoPre),
+            demoFocusIndicator: hasVisibleOutline(demoButton, 3),
+            footerLinkUnderlined:
+              styleFor(demoFooterLink).textDecorationLine.includes("underline")
+          });
+        } else {
+          const controlStyle = styleFor(invalidInstance.control);
+          const chipStyle = styleFor(invalidInstance.removeButtons[0].parentElement);
+          const chipTextStyle = styleFor(
+            invalidInstance.removeButtons[0].parentElement.querySelector(".a11y-tag-input__chip-text")
+          );
+          const errorStyle = styleFor(invalidInstance.error);
+          const bodyStyle = styleFor(document.body);
+          const focusStyle = styleFor(invalidInstance.control);
+          const placeholderStyle = styleFor(invalidInstance.field, "::placeholder");
+          const demoBodyStyle = styleFor(demoBody);
+          const demoIntroStyle = styleFor(demoIntro);
+          const demoButtonStyle = styleFor(demoButton);
+          const demoOutputStyle = styleFor(demoOutput);
+          const demoPreStyle = styleFor(demoPre);
+          const demoFooterStyle = styleFor(demoFooter);
+          const demoFooterMetaStyle = styleFor(demoFooterMeta);
+          const demoFooterLinkStyle = styleFor(demoFooterLink);
+          demoButton.focus();
+          const demoFocusStyle = styleFor(demoButton);
+
+          Object.assign(checks, {
+            componentBorder:
+              contrast(controlStyle.borderTopColor, controlStyle.backgroundColor) >= 3,
+            chipText:
+              contrast(chipTextStyle.color, chipStyle.backgroundColor) >= 4.5,
+            errorText:
+              contrast(errorStyle.color, bodyStyle.backgroundColor) >= 4.5,
+            componentFocus:
+              contrast(focusStyle.outlineColor, bodyStyle.backgroundColor) >= 3,
+            placeholderText:
+              contrast(placeholderStyle.color, controlStyle.backgroundColor) >= 4.5,
+            demoBodyText:
+              contrast(demoBodyStyle.color, demoBodyStyle.backgroundColor) >= 4.5,
+            demoMutedText:
+              contrast(demoIntroStyle.color, demoBodyStyle.backgroundColor) >= 4.5,
+            demoButtonText:
+              contrast(demoButtonStyle.color, demoButtonStyle.backgroundColor) >= 4.5,
+            demoOutputText:
+              contrast(demoOutputStyle.color, demoOutputStyle.backgroundColor) >= 4.5,
+            demoOutputBoundary:
+              contrast(demoOutputStyle.borderTopColor, demoOutputStyle.backgroundColor) >= 3,
+            demoCodeText:
+              contrast(demoPreStyle.color, demoPreStyle.backgroundColor) >= 4.5,
+            footerMutedText:
+              contrast(demoFooterMetaStyle.color, demoFooterStyle.backgroundColor) >= 4.5,
+            footerLinkText:
+              contrast(demoFooterLinkStyle.color, demoFooterStyle.backgroundColor) >= 4.5,
+            demoFocus:
+              contrast(demoFocusStyle.outlineColor, demoBodyStyle.backgroundColor) >= 3
+          });
+        }
+
+        const passed = Object.values(checks).every(Boolean);
+        result.dataset.browserCheck = passed ? "pass" : "fail";
+        result.dataset.mode = forcedColorsActive ? "forced" : "normal";
+        result.textContent = JSON.stringify(checks);
+      }
+    </script>
+  </body>
+</html>

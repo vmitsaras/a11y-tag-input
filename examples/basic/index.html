@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accessible Tag Input Basics | A11y Tag Input</title>
+    <meta name="description" content="Try a framework-free tag input with native form syncing, keyboard removal, lowercase transforms, validation feedback, and a five-tag limit.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/basic/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Accessible Tag Input Basics | A11y Tag Input">
+    <meta property="og:description" content="Try a framework-free tag input with native form syncing, keyboard removal, lowercase transforms, validation feedback, and a five-tag limit.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/basic/">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Accessible Tag Input Basics | A11y Tag Input">
+    <meta name="twitter:description" content="Try a framework-free tag input with native form syncing, keyboard removal, lowercase transforms, validation feedback, and a five-tag limit.">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/basic/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/basic/",
+            "name": "Accessible Tag Input Basics | A11y Tag Input",
+            "description": "Try a framework-free tag input with native form syncing, keyboard removal, lowercase transforms, validation feedback, and a five-tag limit.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/basic/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/basic/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <style>
+      :root {
+        color-scheme: light;
+        --demo-accent: #d9ff43;
+        --demo-accent-strong: #173300;
+        --demo-border: #a9ad9f;
+        --demo-canvas: #f2f0e8;
+        --demo-ink: #121510;
+        --demo-muted: #50574c;
+        --demo-panel: #fbfaf4;
+        --demo-warn: #7a3800;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(18, 21, 16, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(18, 21, 16, 0.045) 1px, transparent 1px),
+          var(--demo-canvas);
+        background-size: 3rem 3rem;
+        color: var(--demo-ink);
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      a {
+        color: currentColor;
+        text-decoration-color: #628000;
+        text-decoration-thickness: 0.09em;
+        text-underline-offset: 0.22em;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid #466000;
+        outline-offset: 3px;
+      }
+
+      .skip-link {
+        background: var(--demo-ink);
+        color: #ffffff;
+        inset-block-start: 0.5rem;
+        inset-inline-start: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        position: absolute;
+        transform: translateY(-150%);
+        z-index: 1;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .site-nav,
+      header,
+      main,
+      footer {
+        inline-size: min(74rem, calc(100% - 2rem));
+        margin-inline: auto;
+      }
+
+      .site-nav {
+        align-items: center;
+        border-block-end: 2px solid var(--demo-ink);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 2rem;
+        justify-content: space-between;
+        padding-block: 0.9rem;
+      }
+
+      .site-nav__brand {
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .site-nav__links {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .site-nav__links a {
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .site-nav__links a[aria-current] {
+        text-decoration-color: currentColor;
+        text-decoration-thickness: 0.2em;
+      }
+
+      header {
+        align-items: end;
+        display: grid;
+        gap: clamp(2rem, 8vw, 7rem);
+        grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.45fr);
+        min-block-size: min(34rem, 72vh);
+        padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 7vw, 5rem);
+      }
+
+      header::after {
+        align-items: center;
+        aspect-ratio: 1;
+        background: var(--demo-ink);
+        border-radius: 50%;
+        color: var(--demo-accent);
+        content: "TAG";
+        display: flex;
+        font-size: clamp(3.25rem, 8vw, 6.5rem);
+        font-weight: 900;
+        justify-content: center;
+        letter-spacing: -0.08em;
+        line-height: 0.8;
+        transform: rotate(5deg);
+      }
+
+      main {
+        display: grid;
+        gap: clamp(2.25rem, 6vw, 5rem);
+        padding-block-end: clamp(3rem, 8vw, 6rem);
+      }
+
+      main > * {
+        min-inline-size: 0;
+      }
+
+      h1 {
+        font-size: clamp(3.75rem, 9vw, 7.5rem);
+        letter-spacing: -0.07em;
+        line-height: 0.86;
+        margin: 0 0 1.25rem;
+      }
+
+      h2 {
+        font-size: clamp(1.55rem, 3vw, 2.35rem);
+        letter-spacing: -0.03em;
+        line-height: 1.08;
+        margin-block: 0 1rem;
+      }
+
+      h3 {
+        font-size: 1rem;
+        margin-block: 0 0.5rem;
+      }
+
+      p {
+        margin-block: 0 0.75rem;
+      }
+
+      ul,
+      ol {
+        margin-block: 0;
+        padding-inline-start: 1.25rem;
+      }
+
+      code {
+        font-family:
+          ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          Consolas,
+          "Liberation Mono",
+          monospace;
+        font-size: 0.95em;
+      }
+
+      pre {
+        background: #151914;
+        border: 1px solid #333a30;
+        border-radius: 0;
+        color: #f5f5ec;
+        margin: 0;
+        max-inline-size: 100%;
+        overflow-x: auto;
+        padding: 1rem;
+      }
+
+      pre code {
+        font-size: 0.875rem;
+      }
+
+      .intro {
+        color: var(--demo-muted);
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        max-inline-size: 40rem;
+      }
+
+      .eyebrow {
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        color: var(--demo-muted);
+        margin-block: 0 0.75rem;
+      }
+
+      .section {
+        border-block-start: 2px solid var(--demo-ink);
+        padding-block: clamp(1.5rem, 4vw, 2.5rem);
+      }
+
+      .section:first-child {
+        border-block-start: 0;
+      }
+
+      .demo-grid {
+        align-items: start;
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+        min-inline-size: 0;
+      }
+
+      form {
+        display: grid;
+        gap: 1rem;
+        min-inline-size: 0;
+      }
+
+      label {
+        display: inline-block;
+        font-weight: 700;
+        margin-block-end: 0.375rem;
+      }
+
+      .field-help,
+      .note,
+      .output-label {
+        color: var(--demo-muted);
+      }
+
+      .output-label {
+        display: block;
+        font-weight: 700;
+        margin-block-end: 0.375rem;
+      }
+
+      output {
+        background: #f8ffd8;
+        border: 1px solid #62720d;
+        border-radius: 0;
+        display: block;
+        min-block-size: 2.75rem;
+        min-inline-size: 0;
+        overflow-wrap: anywhere;
+        padding: 0.75rem;
+      }
+
+      button[type="submit"] {
+        background: var(--demo-ink);
+        border: 2px solid var(--demo-ink);
+        border-radius: 999px;
+        color: var(--demo-canvas);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+        justify-self: start;
+        min-block-size: 3rem;
+        padding-inline: 1.2rem;
+        text-align: center;
+      }
+
+      button[type="submit"]:hover {
+        background: var(--demo-accent);
+        color: var(--demo-ink);
+      }
+
+      .facts {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .fact {
+        border-inline-start: 0.25rem solid var(--demo-accent);
+        min-inline-size: 0;
+        overflow-wrap: anywhere;
+        padding-inline-start: 0.75rem;
+      }
+
+      .fact strong {
+        display: block;
+      }
+
+      .fact span {
+        color: var(--demo-muted);
+        display: block;
+      }
+
+      .two-column {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .two-column > * {
+        min-inline-size: 0;
+      }
+
+      .warning {
+        border-inline-start: 0.25rem solid #f59e0b;
+        color: var(--demo-warn);
+        padding-inline-start: 0.75rem;
+      }
+
+      .demo-footer {
+        --demo-footer-background: #121510;
+        --demo-footer-color: #f2f0e8;
+        --demo-footer-muted-color: #b9bdae;
+        --demo-footer-link-color: #d9ff43;
+        --demo-footer-border-color: #121510;
+        --demo-footer-focus-color: #d9ff43;
+        --demo-footer-radius: 0;
+        --demo-footer-space: clamp(1.5rem, 4vw, 3rem);
+        --_background: var(--demo-footer-background);
+        --_color: var(--demo-footer-color);
+        --_muted-color: var(--demo-footer-muted-color);
+        --_link-color: var(--demo-footer-link-color);
+        --_border-color: var(--demo-footer-border-color);
+        --_focus-color: var(--demo-footer-focus-color);
+        --_radius: var(--demo-footer-radius);
+        --_space: var(--demo-footer-space);
+        background: var(--_background);
+        border: 1px solid var(--_border-color);
+        border-radius: var(--_radius);
+        color: var(--_color);
+        margin-block-end: 1rem;
+        padding: var(--_space);
+      }
+
+      .demo-footer__inner {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem 3rem;
+        justify-content: space-between;
+      }
+
+      .demo-footer__brand {
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      .demo-footer__eyebrow,
+      .demo-footer__credit,
+      .demo-footer__meta {
+        margin: 0;
+      }
+
+      .demo-footer__eyebrow,
+      .demo-footer__meta {
+        color: var(--_muted-color);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .demo-footer__plugin {
+        font-weight: 800;
+      }
+
+      .demo-footer__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .demo-footer__link {
+        color: var(--_link-color);
+      }
+
+      .demo-footer__link:focus-visible {
+        border-radius: 0.2rem;
+        outline: 3px solid var(--_focus-color);
+        outline-offset: 0.25rem;
+      }
+
+      .demo-footer__separator {
+        margin-inline: 0.35rem;
+      }
+
+      @media (max-width: 48rem) {
+        .site-nav {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        header,
+        .demo-grid,
+        .facts,
+        .two-column {
+          grid-template-columns: 1fr;
+        }
+
+        header {
+          min-block-size: auto;
+        }
+
+        header::after {
+          inline-size: min(18rem, 80%);
+          justify-self: center;
+        }
+
+        .demo-footer__inner,
+        .demo-footer__links {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      @media (forced-colors: active) {
+        .section,
+        button[type="submit"],
+        output,
+        pre {
+          border: 1px solid CanvasText;
+        }
+
+        .fact,
+        .warning {
+          border-inline-start-color: CanvasText;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms;
+          animation-iteration-count: 1;
+          scroll-behavior: auto;
+          transition-duration: 0.001ms;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#demo">Skip to demo</a>
+
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="site-nav__links">
+        <li><a href="../../">Home</a></li>
+        <li><a href="../../#examples" aria-current="location">Examples</a></li>
+        <li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <header>
+      <p class="eyebrow">Core example</p>
+      <h1>A11y Tag Input</h1>
+      <p class="intro">
+        A static package demo for progressively enhancing a native textarea into a keyboard-friendly tag input.
+      </p>
+    </header>
+
+    <main>
+      <section class="section" id="demo" aria-labelledby="demo-heading">
+        <h2 id="demo-heading">Live Demo</h2>
+        <div class="demo-grid">
+          <form>
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="example-tags">Topics</label>
+              <p class="field-help" id="topics-help">
+                Add up to five topics. Values are lowercased and serialized back to the original textarea.
+              </p>
+              <textarea
+                id="example-tags"
+                name="topics"
+                data-a11y-tag-input
+                data-max-tags="5"
+                data-lowercase="true"
+                aria-describedby="topics-help"
+                placeholder="Add a topic"
+              >accessibility,forms</textarea>
+            </div>
+
+            <button type="submit">Show form value</button>
+          </form>
+
+          <div aria-labelledby="output-heading">
+            <h3 id="output-heading">Serialized Output</h3>
+            <p class="note">Submit the demo form to inspect the current textarea value.</p>
+            <span class="output-label" id="form-output-label">Textarea value</span>
+            <output id="form-output" aria-labelledby="form-output-label" aria-live="polite">(not submitted yet)</output>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="scenario-heading">
+        <h2 id="scenario-heading">Scenario</h2>
+        <p>
+          A developer is evaluating the core tag input behavior before deciding which addon-style recipe matches a production form.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="quick-facts-heading">
+        <h2 id="quick-facts-heading">Quick Facts</h2>
+        <div class="facts">
+          <p class="fact">
+            <strong>No framework</strong>
+            <span>Imports the built ESM package.</span>
+          </p>
+          <p class="fact">
+            <strong>Native form value</strong>
+            <span>Keeps the source textarea synchronized.</span>
+          </p>
+          <p class="fact">
+            <strong>Keyboard support</strong>
+            <span>Enter, separators, arrows, Home, End, Backspace, Delete.</span>
+          </p>
+          <p class="fact">
+            <strong>CSS hooks</strong>
+            <span>Uses scoped custom properties and state classes.</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="try-heading">
+        <h2 id="try-heading">What To Try</h2>
+        <ol>
+          <li>Type <code>Design</code> and press Enter. The tag becomes <code>design</code>.</li>
+          <li>Type <code>Research;Forms</code> to add multiple tags with a separator.</li>
+          <li>Press Backspace from an empty input to move focus to the final remove button.</li>
+          <li>Use ArrowLeft, ArrowRight, Home, and End to move through remove buttons and back to the input.</li>
+          <li>Press Tab from a remove button to leave the tag editor without visiting every tag.</li>
+          <li>Press Delete or Backspace on a focused remove button.</li>
+          <li>Try adding duplicate tags or more than five tags to inspect validation feedback and recovery wording.</li>
+        </ol>
+      </section>
+
+      <section class="section" aria-labelledby="install-heading">
+        <h2 id="install-heading">Installation And Usage</h2>
+        <p>Build the package, import its JavaScript and stylesheet, then initialize the semantic textarea shown in the HTML snippet below.</p>
+        <div class="two-column">
+          <div>
+            <h3>Build locally</h3>
+            <pre><code>npm install
+npm run build</code></pre>
+            <p class="note">The npm registry package was not verified during this docs pass, so use a local checkout or packed tarball until publication is confirmed.</p>
+          </div>
+          <div>
+            <h3>JavaScript</h3>
+            <pre><code>import { createTagInput } from "a11y-tag-input";
+import "a11y-tag-input/styles.css";
+
+const source = document.querySelector("[data-a11y-tag-input]");
+
+if (source instanceof HTMLTextAreaElement) {
+  createTagInput(source);
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="markup-heading">
+        <h2 id="markup-heading">HTML</h2>
+        <pre><code>&lt;div class="a11y-tag-input" data-a11y-tag-input-root&gt;
+  &lt;label for="example-tags"&gt;Topics&lt;/label&gt;
+  &lt;textarea
+    id="example-tags"
+    name="topics"
+    data-a11y-tag-input
+    data-max-tags="5"
+    data-lowercase="true"
+  &gt;accessibility,forms&lt;/textarea&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <section class="section" aria-labelledby="accessibility-heading">
+        <h2 id="accessibility-heading">Accessibility Behavior To Inspect</h2>
+        <ul>
+          <li>The generated input keeps the visible label and field description.</li>
+          <li>Selected tags render as a labelled list with real remove buttons.</li>
+          <li>Add, remove, duplicate, paste, and limit messages update a polite status region.</li>
+          <li>Validation errors use <code>aria-invalid</code>, <code>aria-errormessage</code>, and visible error text.</li>
+          <li>Default CSS includes visible focus, forced-colors support, and reduced-motion handling.</li>
+        </ul>
+        <p class="warning">
+          This demo shows implemented behavior. It is not a substitute for testing your production form with target assistive technologies.
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="limitations-heading">
+        <h2 id="limitations-heading">Limitations</h2>
+        <ul>
+          <li>Screen-reader speech, physical touch keyboards, browser zoom, and Windows High Contrast still require real-device/manual checks.</li>
+          <li>The generated input enhances a native control; verify serialization, labels, and validation in the final production form.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="demo-footer" data-demo-footer>
+      <div class="demo-footer__inner">
+        <div class="demo-footer__brand">
+          <p class="demo-footer__eyebrow">Accessibility plugin demo</p>
+          <p class="demo-footer__credit">
+            <span class="demo-footer__plugin">A11y Tag Input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <a class="demo-footer__link" href="https://linkedin.com/in/vasilis-mitsaras">LinkedIn profile</a>
+          </p>
+          <p class="demo-footer__meta">
+            <span>a11y-tag-input</span>
+            <span class="demo-footer__separator" aria-hidden="true">&middot;</span>
+            <span>MIT License</span>
+          </p>
+        </div>
+        <nav class="demo-footer__nav" aria-label="Project links">
+          <ul class="demo-footer__links">
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li>
+            <li class="demo-footer__item"><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+
+      const source = document.querySelector("[data-a11y-tag-input]");
+      const form = document.querySelector("form");
+      const output = document.querySelector("#form-output");
+
+      if (source instanceof HTMLInputElement || source instanceof HTMLTextAreaElement) {
+        createTagInput(source);
+      }
+
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (output instanceof HTMLOutputElement && source instanceof HTMLTextAreaElement) {
+          output.textContent = source.value || "(empty)";
+        }
+      });
+    </script>
+  </body>
+</html>

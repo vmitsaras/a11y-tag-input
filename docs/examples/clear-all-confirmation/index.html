@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clear All Confirmation Recipe | A11y Tag Input</title>
+    <meta name="description" content="Confirm a destructive clear-all action, preserve logical focus, and announce the result through the tag input status region.">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Clear All Confirmation Recipe | A11y Tag Input">
+    <meta property="og:description" content="Confirm a destructive clear-all action and announce the result once.">
+    <meta property="og:url" content="https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/#webpage",
+            "url": "https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/",
+            "name": "Clear All Confirmation Recipe | A11y Tag Input",
+            "description": "Confirm a destructive clear-all action, preserve logical focus, and announce the result through the tag input status region.",
+            "mainEntity": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/#software"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/examples/clear-all-confirmation/#software",
+            "name": "A11y Tag Input",
+            "description": "Accessible, framework-agnostic tag input behavior for semantic form controls.",
+            "codeRepository": "https://github.com/vmitsaras/a11y-tag-input",
+            "programmingLanguage": [
+              "TypeScript",
+              "JavaScript"
+            ],
+            "runtimePlatform": "Browser",
+            "version": "1.0.0",
+            "license": "MIT",
+            "keywords": [
+              "accessibility",
+              "a11y",
+              "tag-input",
+              "forms",
+              "typescript"
+            ],
+            "author": {
+              "@id": "https://vmitsaras.github.io/a11y-tag-input/#author"
+            },
+            "targetProduct": {
+              "@type": "SoftwareApplication",
+              "name": "A11y Tag Input",
+              "applicationCategory": "DeveloperApplication",
+              "operatingSystem": "Any",
+              "runtimePlatform": "Browser"
+            },
+            "sameAs": [
+              "https://github.com/vmitsaras/a11y-tag-input"
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://vmitsaras.github.io/a11y-tag-input/#author",
+            "name": "Vasileios Mitsaras",
+            "url": "https://github.com/vmitsaras/",
+            "sameAs": [
+              "https://github.com/vmitsaras/",
+              "https://linkedin.com/in/vasilis-mitsaras"
+            ]
+          }
+        ]
+      }
+    </script>
+    <link rel="stylesheet" href="../../dist/styles.css">
+    <link rel="stylesheet" href="../addon-demo.css">
+  </head>
+  <body>
+    <a class="demo-skip" href="#example">Skip to example</a>
+    <nav class="demo-site-nav" aria-label="Main navigation">
+      <a class="demo-site-nav__brand" href="../../">A11y Tag Input</a>
+      <ul class="demo-site-nav__links"><li><a href="../../">Home</a></li><li><a href="../../#examples" aria-current="location">Examples</a></li><li><a href="https://github.com/vmitsaras/a11y-tag-input">GitHub</a></li></ul>
+    </nav>
+    <header class="demo-hero"><p class="demo-eyebrow">Addon-style recipe</p><h1>Clear A Saved Search Safely</h1><p class="demo-intro">A support analyst can remove every filter tag without turning an accidental click into lost work.</p></header>
+    <main class="demo-page">
+      <section class="demo-section" aria-labelledby="scenario-title"><h2 id="scenario-title">Scenario</h2><p>User goal: clear a complete filter set with an understandable confirmation and predictable focus recovery.</p></section>
+      <section class="demo-section" aria-labelledby="try-title"><h2 id="try-title">Try it</h2><ul><li>Choose <strong>Clear all tags</strong>, then press Escape.</li><li>Open it again and choose Cancel.</li><li>Confirm the action and listen for one result announcement.</li><li>Add another tag and confirm the trigger becomes available again.</li></ul></section>
+      <section class="demo-section" id="example" aria-labelledby="example-title">
+        <h2 id="example-title">Example</h2>
+        <div class="demo-grid">
+          <form class="demo-form" onsubmit="return false">
+            <div class="a11y-tag-input" data-a11y-tag-input-root>
+              <label for="filter-tags">Saved-search filters</label>
+              <p class="demo-field-help" id="filter-tags-help">Add filters for the queue, or clear the complete set.</p>
+              <textarea id="filter-tags" name="filters" data-a11y-tag-input aria-describedby="filter-tags-help">urgent,unassigned,refund</textarea>
+            </div>
+            <div class="demo-actions"><button class="demo-button-secondary" id="clear-all" type="button">Clear all tags</button></div>
+            <div class="demo-confirmation" id="clear-confirmation" hidden>
+              <p>Clear every filter tag? This cannot be undone.</p>
+              <button class="demo-button" id="confirm-clear" type="button">Confirm clear</button>
+              <button class="demo-button-secondary" id="cancel-clear" type="button">Cancel</button>
+            </div>
+          </form>
+          <aside class="demo-note" aria-labelledby="notes-title"><h3 id="notes-title">Developer notes</h3><p>The wrapper calls the existing API and reuses the component's persistent status region.</p><pre><code>const count = instance.getTags().length;
+instance.clear();
+closeConfirmation();
+instance.announce(`All ${count} tags cleared.`);</code></pre></aside>
+        </div>
+      </section>
+      <section class="demo-section" aria-labelledby="a11y-title"><h2 id="a11y-title">Accessibility notes</h2><ul><li>Every action is a native button and the temporary controls are removed from navigation while hidden.</li><li>Opening moves focus to Confirm; closing returns focus to the persistent trigger.</li><li>Escape cancels only while confirmation is open.</li><li>No extra live region competes with the component status.</li></ul></section>
+      <section class="demo-section" aria-labelledby="limitations-title"><h2 id="limitations-title">Limitations</h2><p>This inline pattern suits a local reversible-looking action. More complex consequences may need fuller explanatory content, but not automatically a modal.</p></section>
+    </main>
+    <footer class="demo-footer"><div class="demo-footer__inner"><div class="demo-footer__brand"><p class="demo-footer__eyebrow">Accessibility plugin demo</p><p class="demo-footer__credit"><span class="demo-footer__plugin">A11y Tag Input</span> &middot; Built by <a class="demo-footer__link" href="https://github.com/vmitsaras/">Vasileios Mitsaras</a></p></div><nav aria-label="Project links"><ul class="demo-footer__links"><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input">GitHub repository</a></li><li><a class="demo-footer__link" href="https://github.com/vmitsaras/a11y-tag-input#readme">Documentation</a></li></ul></nav></div></footer>
+    <script type="module">
+      import { createTagInput } from "../../dist/index.js";
+      const source = document.querySelector("#filter-tags");
+      const trigger = document.querySelector("#clear-all");
+      const panel = document.querySelector("#clear-confirmation");
+      const confirmButton = document.querySelector("#confirm-clear");
+      const cancelButton = document.querySelector("#cancel-clear");
+      if (source instanceof HTMLTextAreaElement && trigger instanceof HTMLButtonElement && panel instanceof HTMLElement && confirmButton instanceof HTMLButtonElement && cancelButton instanceof HTMLButtonElement) {
+        const instance = createTagInput(source);
+        const updateTrigger = () => { trigger.disabled = instance.getTags().length === 0; };
+        const closeConfirmation = () => { panel.hidden = true; trigger.setAttribute("aria-expanded", "false"); trigger.focus(); };
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.setAttribute("aria-controls", panel.id);
+        trigger.addEventListener("click", () => { panel.hidden = false; trigger.setAttribute("aria-expanded", "true"); confirmButton.focus(); });
+        cancelButton.addEventListener("click", closeConfirmation);
+        panel.addEventListener("keydown", (event) => { if (event.key === "Escape") { event.preventDefault(); closeConfirmation(); } });
+        confirmButton.addEventListener("click", () => {
+          const count = instance.getTags().length;
+          instance.clear();
+          closeConfirmation();
+          instance.announce(`All ${count} tags cleared.`);
+        });
+        source.addEventListener("a11y-tag-input:render", updateTrigger);
+        updateTrigger();
+      }
+    </script>
+  </body>
+</html>
